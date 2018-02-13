@@ -11,7 +11,7 @@ namespace Node.Core
 
         bool AddBlock(Block block);
 
-        long GetBalance(string address);
+        long GetBalance(string address, int confirmations);
 
         bool AddPendingTransaction(Transaction transaction);
 
