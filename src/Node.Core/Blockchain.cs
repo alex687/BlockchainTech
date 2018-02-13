@@ -13,7 +13,7 @@ namespace Node.Core
             _blocks = new List<Block>();
         }
 
-        public List<Block> GetBlocks()
+        public IEnumerable<Block> GetBlocks()
         {
             throw new NotImplementedException();
         }

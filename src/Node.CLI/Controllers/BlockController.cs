@@ -6,11 +6,11 @@ using Node.Core.Models;
 namespace Node.CLI.Controllers
 {
     [Route("api/[controller]")]
-    public class NodeController : Controller
+    public class BlockController : Controller
     {
         private readonly IBlockchain _blockchain;
 
-        public NodeController(IBlockchain blockchain)
+        public BlockController(IBlockchain blockchain)
         {
             _blockchain = blockchain;
         }
@@ -20,28 +20,21 @@ namespace Node.CLI.Controllers
         {
             return _blockchain.GetBlocks();
         }
-        
+
         [HttpGet("{id}")]
         public Block GetBlock(int id)
         {
             return _blockchain.GetBlock(id);
         }
-        
+
         [HttpPost]
         public void SyncBlocks([FromBody] IEnumerable<Block> blocks)
         {
-            
-        }
-        
-        public void AddBlock([FromBody] Block block)
-        {
-            _blockchain.AddBlock(block);
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Notify([FromBody] Block block)
         {
+            _blockchain.AddBlock(block);
         }
     }
 }
