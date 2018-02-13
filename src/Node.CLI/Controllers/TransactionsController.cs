@@ -5,6 +5,7 @@ using Node.Core.Models;
 
 namespace Node.CLI.Controllers
 {
+    [Route("api/[controller]")]
     public class TransactionsController
     {
         private readonly TransactionService _transactionService;

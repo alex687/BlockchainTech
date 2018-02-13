@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Node.CLI.Configurations;
 using Node.CLI.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Node.CLI
 {
@@ -23,16 +24,30 @@ namespace Node.CLI
             services.AddAutoMapper(c => c.AddProfile(typeof(AutoMapperConfig)));
             services.AddMediatR();
             services.AddMvc();
-            
+
             services.AddSingleton<BlockService>();
             services.AddSingleton<TransactionService>();
             services.AddSingleton<MiningService>();
             services.AddSingleton<PeerService>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "BlockCainTech", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseSwagger();
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chain API V1");
+            });
 
             app.UseMvc();
         }

@@ -6,6 +6,7 @@ using Node.Core.Models;
 
 namespace Node.CLI.Controllers
 {
+    [Route("api/[controller]")]
     public class MiningController
     {
         private readonly MiningService _miningService;

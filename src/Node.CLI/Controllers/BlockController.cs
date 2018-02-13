@@ -27,12 +27,13 @@ namespace Node.CLI.Controllers
             return _blockService.GetBlock(id);
         }
 
-        [HttpPost]
+        [HttpPost("/Sync")]
         public void SyncBlocks([FromBody] IEnumerable<Block> blocks)
         {
             _blockService.SyncBlocks(blocks);
         }
 
+        [HttpPost("/Notify")]
         public void Notify([FromBody] Block block)
         {
             _blockService.AddBlock(block);
