@@ -11,10 +11,12 @@ namespace Node.Core
 
         bool AddBlock(Block block);
 
-        long GetBalance(Address address);
+        long GetBalance(string address);
 
         bool AddPendingTransaction(Transaction transaction);
 
         Transaction GetTransaction(string transactionHash);
+
+        bool SyncBlocks(IEnumerable<Block> blocks);
     }
 }

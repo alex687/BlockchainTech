@@ -1,4 +1,5 @@
 ﻿using System;
+using Node.Core.Utils;
 
 namespace Node.Core.Models
 {
@@ -6,9 +7,9 @@ namespace Node.Core.Models
     {
         public string Hash { get; set; }
 
-        public Address From { get; set; }
+        public string From { get; set; }
 
-        public Address To { get; set; }
+        public string To { get; set; }
 
         public long Amount { get; set; }
 
@@ -17,13 +18,5 @@ namespace Node.Core.Models
         public string SenderSignature { get; set; }
 
         public DateTime ReceivedOn { get; set; }
-
-        public static string GetTransactionHash(object transaction)
-        {
-            var forHash = JsonConvert.SerializeObject(transaction);
-
-            var hash = Crypto.ComputeSha256Hash(forHash);
-            return hash;
-        }
     }
 }
