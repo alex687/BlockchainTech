@@ -65,7 +65,6 @@ namespace Node.Core
             }
 
             _pendingTransactions.Add(transaction);
-
             return true;
         }
 

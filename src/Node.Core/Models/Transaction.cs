@@ -2,20 +2,31 @@
 
 namespace Node.Core.Models
 {
-    public class Transaction 
+    public class Transaction
     {
-        public string Hash { get; set; }
+        public Transaction(string hash, string from, string to, long amount, string senderPublickKey, string senderSignature, DateTime receivedOn)
+        {
+            Hash = hash;
+            From = from;
+            To = to;
+            Amount = amount;
+            SenderPublickKey = senderPublickKey;
+            SenderSignature = senderSignature;
+            ReceivedOn = receivedOn;
+        }
 
-        public string From { get; set; }
+        public string Hash { get; }
 
-        public string To { get; set; }
+        public string From { get; }
 
-        public long Amount { get; set; }
+        public string To { get; }
 
-        public string SenderPublickKey { get; set; }
+        public long Amount { get; }
 
-        public string SenderSignature { get; set; }
+        public string SenderPublickKey { get; }
 
-        public DateTime ReceivedOn { get; set; }
+        public string SenderSignature { get; }
+
+        public DateTime ReceivedOn { get; }
     }
 }

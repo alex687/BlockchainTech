@@ -1,45 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace Node.Core.Models
 {
     public class Block
     {
-        public static Block Genesis { get; } = new Block()
+        public Block(int index, List<Transaction> transactions, int difficulty, string previousBlockHash, string minedBy, long nonce, DateTime createdOn, string hash)
         {
-            Index = 0,
-            Transactions = new List<Transaction>
-            {
-                new Transaction
-                {
-                    Amount = 500,
-                    From = "Me",
-                    To = "Me",
-                    SenderPublickKey = "",
-                    ReceivedOn = DateTime.Now,
-                    SenderSignature = "",
-                    Hash = "024142"
-                }
-            },
-            CreatedOn = DateTime.Now,
-            Difficulty = 1,
-            Hash = "0231"
-        };
+            Index = index;
+            Transactions = transactions.ToImmutableList();
+            Difficulty = difficulty;
+            PreviousBlockHash = previousBlockHash;
+            MinedBy = minedBy;
+            Nonce = nonce;
+            CreatedOn = createdOn;
+            Hash = hash;
+        }
 
-        public int Index { get; set; }
+        public int Index { get; }
 
-        public List<Transaction> Transactions { get; set; }
+        public ImmutableList<Transaction> Transactions { get; }
 
-        public int Difficulty { get; set; }
+        public int Difficulty { get; }
 
-        public string PreviousBlockHash { get; set; }
+        public string PreviousBlockHash { get; }
 
-        public string MinedBy { get; set; }
+        public string MinedBy { get; }
 
-        public long Nonce { get; set; }
+        public long Nonce { get; }
 
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; }
 
-        public string Hash { get; set; }
+        public string Hash { get; }
     }
 }

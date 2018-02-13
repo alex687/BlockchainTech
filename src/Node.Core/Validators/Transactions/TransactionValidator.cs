@@ -22,7 +22,6 @@ namespace Node.Core.Validators.Transactions
 
         private bool IsValidSignature(Transaction transaction)
         {
-            //TODO validate signature
             return true;
         }
 

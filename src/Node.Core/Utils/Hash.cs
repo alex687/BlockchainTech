@@ -61,9 +61,13 @@ namespace Node.Core.Utils
 
         private static string ComputeHash(params string[] args)
         {
-            string valueForHash = args.Aggregate((s1, s2) => s1 + s2);
+            var valueForHash = new StringBuilder();
+            foreach (var arg in args)
+            {
+                valueForHash.Append(arg);
+            }
 
-            return valueForHash.ComputeSha256Hash();
+            return valueForHash.ToString().ComputeSha256Hash();
         }
     }
 }
