@@ -34,7 +34,7 @@ namespace Node.Core.Models
 
         public string PreviousBlockHash { get; set; }
 
-        public Address MinedBy { get; set; }
+        public string MinedBy { get; set; }
 
         public long Nonce { get; set; }
 

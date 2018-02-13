@@ -1,36 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
 using Node.Core.Models;
+using Node.Core.Validators.Block;
+using Node.Core.Validators.Transactions;
 
 namespace Node.Core
 {
     public class Blockchain : IBlockchain
     {
-        private readonly List<Block> _blocks;
+        private readonly IBlockValidator _blockValidator;
+        private readonly ITransactionValidator _transactionValidator;
 
-        public Blockchain()
+        private readonly List<Block> _blocks;
+        private readonly List<Transaction> _pendingTransactions;
+
+        public Blockchain(IBlockValidator blockValidator, ITransactionValidator transactionValidator)
         {
+            _blockValidator = blockValidator;
+            _transactionValidator = transactionValidator;
+
             _blocks = new List<Block>();
+            _pendingTransactions = new List<Transaction>();
         }
 
         public IEnumerable<Block> GetBlocks()
         {
-            throw new NotImplementedException();
+            //TODO: clone the blocks
+            return _blocks;
         }
 
         public Block GetBlock(int index)
         {
             if (index >= _blocks.Count || index < 0)
             {
-                throw  new  ArgumentException($"Index shoud be between 0 and {_blocks.Count - 1}", nameof(index));
+                throw new ArgumentException($"Index shoud be between 0 and {_blocks.Count - 1}", nameof(index));
             }
+
+            //TODO: clone block
             return _blocks[index];
         }
 
         public bool AddBlock(Block block)
         {
-            _blocks.Add(block);
+            var lastBlock = _blocks[_blocks.Count - 1];
+            if (!_blockValidator.ValidateBlock(block, lastBlock))
+            {
+                return false;
+            }
 
+            _blocks.Add(block);
             return true;
         }
 
@@ -41,17 +59,31 @@ namespace Node.Core
 
         public bool AddPendingTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+            if (!_transactionValidator.ValidateTransaction(transaction))
+            {
+                return false;
+            }
+
+            _pendingTransactions.Add(transaction);
+
+            return true;
         }
 
         public Transaction GetTransaction(string transactionHash)
         {
+            //TODO clone transaction
             throw new NotImplementedException();
         }
 
         public bool SyncBlocks(IEnumerable<Block> blocks)
         {
-            throw new NotImplementedException();
+            //TODO do this
+           /// new caches
+           /// new validator
+           /// new blockchain
+           /// i da mu dobavqme blokove
+
+            return false;
         }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
-using Node.Core.Utils;
 
 namespace Node.Core.Models
 {
-    public class Transaction
+    public class Transaction 
     {
         public string Hash { get; set; }
 
