@@ -1,14 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Node.CLI.Services;
 using Node.Core.Models;
 
 namespace Node.CLI.Controllers
 {
     public class TransactionsController
     {
+        private readonly TransactionService _transactionService;
+
+        public TransactionsController(TransactionService transactionService)
+        {
+            _transactionService = transactionService;
+        }
 
         [HttpGet]
         public Transaction Get(string transactionHash)
@@ -21,7 +25,6 @@ namespace Node.CLI.Controllers
         public Transaction GetBalance(string address, int confirmations)
         {
             throw new NotImplementedException();
-
         }
 
         [HttpPost]
@@ -29,7 +32,5 @@ namespace Node.CLI.Controllers
         {
             // TODO transaction ViewModel
         }
-
-
     }
 }

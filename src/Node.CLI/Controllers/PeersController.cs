@@ -1,24 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Node.CLI.Services;
 using Node.Core.Models;
 
 namespace Node.CLI.Controllers
 {
     public class PeersController
     {
-        [HttpGet]
-        public IEnumerable<string> GetPeers()
+        private readonly PeerService _peerService;
+
+        public PeersController(PeerService peerService)
         {
-            throw new NotImplementedException();
+            _peerService = peerService;
+        }
+
+        [HttpGet]
+        public IEnumerable<Peer> GetPeers()
+        {
+            return _peerService.GetAll();
         }
 
         [HttpPost]
-        public IEnumerable<string> AddPeer()
+        public async Task AddPeer([FromBody] Peer peer)
         {
-            throw new NotImplementedException();
+            await _peerService.Add(peer);
         }
     }
 }
