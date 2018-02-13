@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Node.Core.Constants;
 using Node.Core.Models;
 using Node.Core.Validators.Block;
 using Node.Core.Validators.Transactions;
@@ -20,7 +21,7 @@ namespace Node.Core
             _blockValidator = blockValidator;
             _transactionValidator = transactionValidator;
 
-            _blocks = new List<Block>();
+            _blocks = new List<Block> { Genesis.Block };
             _pendingTransactions = new List<Transaction>();
         }
 
