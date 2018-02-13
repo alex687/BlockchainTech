@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Node.Core.Models;
 using Node.Core.Validators.Block;
 using Node.Core.Validators.Transactions;
@@ -52,9 +53,16 @@ namespace Node.Core
             return true;
         }
 
-        public long GetBalance(string address)
+        public long GetBalance(string address, int confirmations)
         {
-            throw new NotImplementedException();
+            var accountTransactions = _blocks
+                .Take(_blocks.Count - confirmations)
+                .SelectMany(b => b.Transactions);
+
+            var from = accountTransactions.Where(t => t.From == address).Sum(t => t.Amount);
+            var to = accountTransactions.Where(t => t.To == address).Sum(t => t.Amount);
+
+            return to - from;
         }
 
         public bool AddPendingTransaction(Transaction transaction)
