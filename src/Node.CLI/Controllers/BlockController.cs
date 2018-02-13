@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Node.CLI.Services;
 using Node.Core.Models;
@@ -27,16 +28,17 @@ namespace Node.CLI.Controllers
             return _blockService.GetBlock(id);
         }
 
-        [HttpPost("/Sync")]
-        public void SyncBlocks([FromBody] IEnumerable<Block> blocks)
+        [HttpPost("Sync")]
+        public async Task SyncBlocks([FromBody] IEnumerable<Block> blocks)
         {
-            _blockService.SyncBlocks(blocks);
+            await _blockService.SyncBlocks(blocks);
         }
 
-        [HttpPost("/Notify")]
-        public void Notify([FromBody] Block block)
+        [HttpPost("Notify")]
+        public object Notify([FromBody] Block block)
         {
-            _blockService.AddBlock(block);
+            var isAccepted = _blockService.AddBlock(block);
+            return new {Accepted  = isAccepted};
         }
     }
 }

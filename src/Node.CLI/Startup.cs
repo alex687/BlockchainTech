@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Node.CLI.Configurations;
 using Node.CLI.Services;
+using Node.Core;
+using Node.Core.Validators.Block;
+using Node.Core.Validators.Transactions;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Node.CLI
@@ -25,10 +28,16 @@ namespace Node.CLI
             services.AddMediatR();
             services.AddMvc();
 
-            services.AddSingleton<BlockService>();
+            //services.AddSingleton<IMediator, Mediator>();
+            services.AddScoped<BlockService>();
             services.AddSingleton<TransactionService>();
             services.AddSingleton<MiningService>();
             services.AddSingleton<PeerService>();
+
+            services.AddSingleton<IBlockchain, Blockchain>();
+            services.AddSingleton<IBlockValidator, BlockValidator>();
+            services.AddSingleton<ITransactionValidator, TransactionValidator>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "BlockCainTech", Version = "v1" });

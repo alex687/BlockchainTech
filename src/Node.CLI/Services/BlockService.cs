@@ -40,9 +40,9 @@ namespace Node.CLI.Services
             }
         }
 
-        public void AddBlock(Block block)
+        public bool AddBlock(Block block)
         {
-            _blockChain.AddBlock(block);
+            return _blockChain.AddBlock(block);
         }
 
         private bool IsBlockBigger(IEnumerable<Block> blocks)
