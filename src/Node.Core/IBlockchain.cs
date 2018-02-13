@@ -5,7 +5,7 @@ namespace Node.Core
 {
     public interface IBlockchain
     {
-        List<Block> GetBlocks();
+        IEnumerable<Block> GetBlocks();
 
         Block GetBlock(int index);
 
