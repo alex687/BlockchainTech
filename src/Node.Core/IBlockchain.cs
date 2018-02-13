@@ -17,6 +17,6 @@ namespace Node.Core
 
         Transaction GetTransaction(string transactionHash);
 
-        bool SyncBlocks(IEnumerable<Block> blocks);
+        void SyncBlocks(IEnumerable<Block> blocks);
     }
 }

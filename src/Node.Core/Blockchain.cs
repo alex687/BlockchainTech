@@ -13,8 +13,8 @@ namespace Node.Core
         private readonly IBlockValidator _blockValidator;
         private readonly ITransactionValidator _transactionValidator;
 
-        private readonly List<Block> _blocks;
-        private readonly List<Transaction> _pendingTransactions;
+        private List<Block> _blocks;
+        private List<Transaction> _pendingTransactions;
 
         public Blockchain(IBlockValidator blockValidator, ITransactionValidator transactionValidator)
         {
@@ -79,19 +79,12 @@ namespace Node.Core
 
         public Transaction GetTransaction(string transactionHash)
         {
-            //TODO clone transaction
-            throw new NotImplementedException();
+            return _blocks.SelectMany(b => b.Transactions).FirstOrDefault(t => t.Hash == transactionHash);
         }
 
-        public bool SyncBlocks(IEnumerable<Block> blocks)
+        public void SyncBlocks(IEnumerable<Block> blocks)
         {
-            //TODO do this
-           /// new caches
-           /// new validator
-           /// new blockchain
-           /// i da mu dobavqme blokove
-
-            return false;
+            _blocks = blocks.ToList();
         }
     }
 }
