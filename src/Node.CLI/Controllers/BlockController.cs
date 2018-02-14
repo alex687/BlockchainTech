@@ -35,9 +35,9 @@ namespace Node.CLI.Controllers
         }
 
         [HttpPost("Notify")]
-        public object Notify([FromBody] Block block)
+        public async Task<object> Notify([FromBody] Block block)
         {
-            var isAccepted = _blockService.AddBlock(block);
+            var isAccepted = await _blockService.AddBlock(block);
             return new {Accepted  = isAccepted};
         }
     }

@@ -4,6 +4,6 @@ namespace Node.Core.Validators.Transactions
 {
     public interface ITransactionValidator
     {
-        bool ValidateTransaction(Transaction transaction);
+        bool Validate(Transaction transaction);
     }
 }

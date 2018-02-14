@@ -22,6 +22,7 @@ namespace Node.CLI
             services.AddAutoMapper(c => c.AddProfile(typeof(AutoMapperConfig)));
             services.AddMediatR();
             services.AddMvc();
+            services.AddInjectionConfig();
             services.AddSwagger();
         }
 

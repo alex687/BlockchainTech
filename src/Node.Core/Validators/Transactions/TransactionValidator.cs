@@ -5,7 +5,7 @@ namespace Node.Core.Validators.Transactions
 {
     public class TransactionValidator : ITransactionValidator
     {
-        public bool ValidateTransaction(Transaction transaction)
+        public bool Validate(Transaction transaction)
         {
             if (!IsValidAddress(transaction))
             {

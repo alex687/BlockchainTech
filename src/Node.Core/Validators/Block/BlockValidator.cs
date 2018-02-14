@@ -14,7 +14,7 @@ namespace Node.Core.Validators.Block
             _transactionValidator = transactionValidator;
         }
 
-        public bool ValidateB(Models.Block block, Models.Block previousBlock)
+        public bool Validate(Models.Block block, Models.Block previousBlock)
         {
             if (previousBlock.Index + 1 != block.Index)
             {
@@ -56,7 +56,7 @@ namespace Node.Core.Validators.Block
 
         private bool ContainsOnlyValidTransactions(Models.Block block)
         {
-            return block.Transactions.All(_transactionValidator.ValidateTransaction);
+            return block.Transactions.All(_transactionValidator.Validate);
         }
     }
 }

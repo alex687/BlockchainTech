@@ -51,7 +51,7 @@ namespace Node.CLI.Services
         {
             var domainObject = _mapper.Map<TransactionViewModel, Transaction>(transaction);
 
-            if (_tranValidator.ValidateTransaction(domainObject))
+            if (_tranValidator.Validate(domainObject))
             {
                 _tranRepo.AddPending(domainObject);
 

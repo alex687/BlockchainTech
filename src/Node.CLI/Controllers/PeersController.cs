@@ -20,7 +20,7 @@ namespace Node.CLI.Controllers
         [HttpGet]
         public IEnumerable<Peer> GetPeers()
         {
-            return _peerService.GetAll();
+            return _peerService.All();
         }
 
         [HttpPost]

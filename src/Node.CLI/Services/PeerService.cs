@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
+using Node.CLI.Repositories;
 using Node.Core.Models;
 
 namespace Node.CLI.Services
@@ -13,18 +14,19 @@ namespace Node.CLI.Services
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly IList<Peer> _peers;
+        private readonly PeerRepository _peers;
 
-        public PeerService(IMediator mediator, IMapper mapper)
+        public PeerService(IMediator mediator, IMapper mapper, PeerRepository peers)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _peers = new List<Peer>();
+            _peers = peers;
         }
 
         public async Task Add(Peer peer)
         {
-            if (_peers.All(p => p.Address != peer.Address))
+            var existing = _peers.Get(peer.Address);
+            if (existing == null)
             {
                 _peers.Add(peer);
                 var peerModel = _mapper.Map<Peer, PeerViewModel>(peer);
@@ -32,9 +34,9 @@ namespace Node.CLI.Services
             }
         }
 
-        public IEnumerable<Peer> GetAll()
+        public IEnumerable<Peer> All()
         {
-            return _peers.ToImmutableList();
+            return _peers.GetAll();
         }
     }
 }

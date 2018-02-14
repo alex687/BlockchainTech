@@ -19,7 +19,7 @@ namespace Node.CLI.Repositories
 
         public IEnumerable<Block> GetBlocks()
         {
-            return _blocks.ToImmutableHashSet();
+            return _blocks.ToImmutableList();
         }
 
         public Block GetBlock(int index)

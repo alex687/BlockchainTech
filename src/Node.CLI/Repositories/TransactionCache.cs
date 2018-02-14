@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Node.Core.Models;
 
@@ -29,12 +28,10 @@ namespace Node.CLI.Repositories
 
         public void AddTransactions(IEnumerable<Transaction> minnedTransactions)
         {
-            throw new NotImplementedException();
         }
 
         public void UpdateBlocks(IEnumerable<Block> blocks)
         {
-            throw new NotImplementedException();
         }
     }
 }

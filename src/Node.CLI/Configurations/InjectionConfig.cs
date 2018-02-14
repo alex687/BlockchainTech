@@ -10,17 +10,22 @@ namespace Node.CLI.Configurations
     {
         public static IServiceCollection AddInjectionConfig(this IServiceCollection services)
         {
-            services.AddScoped<IBlockValidator, BlockValidator>();
-            services.AddScoped<ITransactionValidator, TransactionValidator>();
+            services.AddSingleton<BlockRepository>();
+            services.AddSingleton<JobRepository>();
+            services.AddSingleton<PeerRepository>();
+            services.AddSingleton<PendingTransactionRepository>();
+            services.AddSingleton<TransactionCache>();
+
             services.AddScoped<BlockService>();
             services.AddScoped<TransactionService>();
             services.AddScoped<MiningService>();
             services.AddScoped<PeerService>();
-
-            services.AddSingleton<BlockRepository>();
-            services.AddSingleton<PendingTransactionRepository>();
-            services.AddSingleton<TransactionCache>();
-
+            
+            services.AddScoped<IBlockValidator, PassingBlockValidator>();
+            services.AddScoped<ITransactionValidator, PassingTranValidator>();
+            //services.AddScoped<IBlockValidator, BlockValidator>();
+            //services.AddScoped<ITransactionValidator, TransactionValidator>();
+            
             return services;
         }
     }

@@ -2,6 +2,6 @@
 {
     public interface IBlockValidator
     {
-        bool ValidateB(Models.Block block, Models.Block previousBlock);
+        bool Validate(Models.Block block, Models.Block previousBlock);
     }
 }

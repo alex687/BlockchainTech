@@ -50,7 +50,7 @@ namespace Node.CLI.Services
         public async Task<bool> AddBlock(Block block)
         {
             var prevBlock = _blockChain.GetBlocks().Last();
-            var isValid = _blockValidator.ValidateB(block, prevBlock);
+            var isValid = _blockValidator.Validate(block, prevBlock);
 
             if (isValid) await AddBlockInternal(block);
 

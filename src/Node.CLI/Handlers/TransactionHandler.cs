@@ -23,7 +23,7 @@ namespace Node.CLI.Handlers
 
         public Task Handle(TransactionViewModel newTran, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }
