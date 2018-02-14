@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
 using Node.CLI.Repositories;
-using Node.Core.Models;
 
 namespace Node.CLI.Handlers
 {
     public class TransactionHandler : INotificationHandler<TransactionViewModel>
     {
+        private readonly BlockRepository _blockRepo;
         private readonly IMapper _mapper;
         private readonly PendingTransactionRepository _tranRepo;
-        private readonly BlockRepository _blockRepo;
 
         public TransactionHandler(IMapper mapper, PendingTransactionRepository tranRepo, BlockRepository blockRepo)
         {
@@ -28,7 +25,5 @@ namespace Node.CLI.Handlers
         {
             throw new NotImplementedException();
         }
-
-      
     }
 }

@@ -5,7 +5,6 @@ using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
 using Node.CLI.Repositories;
-using Node.Core;
 using Node.Core.Models;
 using Node.Core.Validators.Block;
 
