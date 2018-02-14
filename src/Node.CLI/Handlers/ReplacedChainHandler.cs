@@ -7,7 +7,7 @@ using Node.CLI.Services;
 
 namespace Node.CLI.Handlers
 {
-    public class ReplacedChainHandler : INotificationHandler<ReplacedChainNotify>
+    public class ReplacedChainHandler : INotificationHandler<ChainNotify>
     {
         private readonly CommunicationService _communicationService;
         private readonly TransactionCache _tranCache;
@@ -18,10 +18,10 @@ namespace Node.CLI.Handlers
             _communicationService = communicationService;
         }
 
-        public async Task Handle(ReplacedChainNotify newChain, CancellationToken cancellationToken)
+        public async Task Handle(ChainNotify newChain, CancellationToken cancellationToken)
         {
             _tranCache.ReloadCache(newChain.Blocks);
-            await _communicationService.NotifyAll(newChain);
+            await _communicationService.PublishChain(newChain);
         }
     }
 }

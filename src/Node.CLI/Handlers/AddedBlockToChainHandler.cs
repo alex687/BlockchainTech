@@ -7,7 +7,7 @@ using Node.CLI.Services;
 
 namespace Node.CLI.Handlers
 {
-    public class AddedBlockToChainHandler : INotificationHandler<AddedBlockToChainNotify>
+    public class AddedBlockToChainHandler : INotificationHandler<BlockNotify>
     {
         private readonly CommunicationService _communicationService;
         private readonly TransactionCache _tranCache;
@@ -18,11 +18,11 @@ namespace Node.CLI.Handlers
             _communicationService = communicationService;
         }
 
-        public async Task Handle(AddedBlockToChainNotify newBlockAdded, CancellationToken cancellationToken)
+        public async Task Handle(BlockNotify newBlock, CancellationToken cancellationToken)
         {
-            await _communicationService.NotifyAll(newBlockAdded);
+            await _communicationService.PublishBlock(newBlock);
 
-            var minedTransactions = newBlockAdded.Block.Transactions;
+            var minedTransactions = newBlock.Block.Transactions;
             _tranCache.AddTransaction(minedTransactions);
         }
     }

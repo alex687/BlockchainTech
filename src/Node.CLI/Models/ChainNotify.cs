@@ -4,9 +4,9 @@ using Node.Core.Models;
 
 namespace Node.CLI.Models
 {
-    public class ReplacedChainNotify : INotification
+    public class ChainNotify : INotification
     {
-        public ReplacedChainNotify(IEnumerable<Block> blocks)
+        public ChainNotify(IEnumerable<Block> blocks)
         {
             Blocks = blocks;
         }

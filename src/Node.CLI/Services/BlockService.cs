@@ -43,7 +43,7 @@ namespace Node.CLI.Services
             {
                 _blockChain.SyncBlocks(blocks);
 
-                var notifyObject = new ReplacedChainNotify(blocks);
+                var notifyObject = new ChainNotify(blocks);
                 await _mediator.Publish(notifyObject);
             }
         }
@@ -63,7 +63,7 @@ namespace Node.CLI.Services
 
         private async Task AddBlockInternal(Block block)
         {
-            var notify = new AddedBlockToChainNotify(block);
+            var notify = new BlockNotify(block);
             await _mediator.Publish(notify);
 
             _blockChain.AddBlock(block);
