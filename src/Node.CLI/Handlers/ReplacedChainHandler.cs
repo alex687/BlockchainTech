@@ -9,19 +9,19 @@ namespace Node.CLI.Handlers
 {
     public class ReplacedChainHandler : INotificationHandler<ReplacedChainNotify>
     {
-        private readonly PeerService _peerService;
+        private readonly CommunicationService _communicationService;
         private readonly TransactionCache _tranCache;
 
-        public ReplacedChainHandler(TransactionCache tranCache, PeerService peerService)
+        public ReplacedChainHandler(TransactionCache tranCache, CommunicationService communicationService)
         {
             _tranCache = tranCache;
-            _peerService = peerService;
+            _communicationService = communicationService;
         }
 
         public async Task Handle(ReplacedChainNotify newChain, CancellationToken cancellationToken)
         {
             _tranCache.ReloadCache(newChain.Blocks);
-            await _peerService.NotifyAll(newChain);
+            await _communicationService.NotifyAll(newChain);
         }
     }
 }

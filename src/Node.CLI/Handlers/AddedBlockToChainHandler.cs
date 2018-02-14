@@ -9,18 +9,18 @@ namespace Node.CLI.Handlers
 {
     public class AddedBlockToChainHandler : INotificationHandler<AddedBlockToChainNotify>
     {
-        private readonly PeerService _peerService;
+        private readonly CommunicationService _communicationService;
         private readonly TransactionCache _tranCache;
 
-        public AddedBlockToChainHandler(TransactionCache tranCache, PeerService peerService)
+        public AddedBlockToChainHandler(TransactionCache tranCache, CommunicationService communicationService)
         {
             _tranCache = tranCache;
-            _peerService = peerService;
+            _communicationService = communicationService;
         }
 
         public async Task Handle(AddedBlockToChainNotify newBlockAdded, CancellationToken cancellationToken)
         {
-            await _peerService.NotifyAll(newBlockAdded);
+            await _communicationService.NotifyAll(newBlockAdded);
 
             var minedTransactions = newBlockAdded.Block.Transactions;
             _tranCache.AddTransaction(minedTransactions);

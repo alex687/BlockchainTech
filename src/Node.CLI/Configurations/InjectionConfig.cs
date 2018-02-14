@@ -21,6 +21,7 @@ namespace Node.CLI.Configurations
             services.AddScoped<TransactionService>();
             services.AddScoped<MiningService>();
             services.AddScoped<PeerService>();
+            services.AddScoped<CommunicationService>();
             
             services.AddScoped<IBlockValidator, PassingBlockValidator>();
             services.AddScoped<ITransactionValidator, PassingTranValidator>();
