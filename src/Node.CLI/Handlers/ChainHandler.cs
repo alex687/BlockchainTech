@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
-using Node.CLI.Repositories;
+using Node.CLI.Repositories.Caches;
 using Node.Core.Models;
 
 namespace Node.CLI.Handlers
@@ -23,7 +23,7 @@ namespace Node.CLI.Handlers
         public Task Handle(ChainViewModel newChain, CancellationToken cancellationToken)
         {
             var domainBlocks = newChain.Blocks.Select(_mapper.Map<BlockViewModel, Block>);
-            _tranCache.UpdateBlocks(domainBlocks);
+            _tranCache.ReloadCache(domainBlocks);
 
             return Task.CompletedTask;
         }

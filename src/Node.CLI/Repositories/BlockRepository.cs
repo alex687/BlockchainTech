@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -30,6 +29,11 @@ namespace Node.CLI.Repositories
         public void AddBlock(Block block)
         {
             _blocks.TryAdd(block);
+        }
+
+        public int GetBlockCount()
+        {
+            return _blocks.Count;
         }
 
         public void SyncBlocks(IEnumerable<Block> blocks)

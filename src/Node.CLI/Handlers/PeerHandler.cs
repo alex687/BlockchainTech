@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Node.CLI.Controllers;
 using Node.CLI.Models;
 using Node.CLI.Services;
 using Node.Core.Models;
 
 namespace Node.CLI.Handlers
 {
-    using Controllers;
-    using Microsoft.AspNetCore.Mvc;
-
     public class PeerSyncHandler : INotificationHandler<PeerViewModel>
     {
         private readonly BlockService _blockService;

@@ -16,7 +16,5 @@ namespace Node.CLI.Models
         public string SenderPublickKey { get; set; }
 
         public string SenderSignature { get; set; }
-
-        public DateTime ReceivedOn { get; set; }
     }
 }

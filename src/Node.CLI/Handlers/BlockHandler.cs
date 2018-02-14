@@ -5,6 +5,7 @@ using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
 using Node.CLI.Repositories;
+using Node.CLI.Repositories.Caches;
 using Node.Core.Models;
 
 namespace Node.CLI.Handlers
@@ -23,9 +24,9 @@ namespace Node.CLI.Handlers
         public Task Handle(BlockViewModel newBlockAdded, CancellationToken cancellationToken)
         {
             var minedTransactions = newBlockAdded.Transactions
-                .Select(_mapper.Map<TransactionViewModel, Transaction>);
+                .Select(t => new Transaction(t.Hash, t.From, t.To, (long)t.Amount, t.SenderPublickKey, t.SenderSignature, 1));
 
-            _tranCache.AddTransactions(minedTransactions);
+            _tranCache.AddTransaction(minedTransactions);
 
             return Task.CompletedTask;
         }

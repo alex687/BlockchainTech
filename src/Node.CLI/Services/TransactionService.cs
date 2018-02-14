@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
 using Node.CLI.Repositories;
+using Node.CLI.Repositories.Caches;
 using Node.Core.Models;
 using Node.Core.Validators.Transactions;
 
@@ -16,11 +16,11 @@ namespace Node.CLI.Services
         private readonly ITransactionValidator _tranValidator;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private TransactionCache _tranCache;
+        private readonly TransactionCache _transactionsCache;
 
-        public TransactionService(TransactionCache tranCache, PendingTransactionRepository tranRepo, ITransactionValidator tranValidator, IMediator mediator, IMapper mapper)
+        public TransactionService(TransactionCache transactionsCache, PendingTransactionRepository tranRepo, ITransactionValidator tranValidator, IMediator mediator, IMapper mapper)
         {
-            _tranCache = tranCache;
+            _transactionsCache = transactionsCache;
             _tranRepo = tranRepo;
             _tranValidator = tranValidator;
             _mediator = mediator;
@@ -29,18 +29,18 @@ namespace Node.CLI.Services
 
         public Transaction GetTransaction(string hash)
         {
-            return _tranCache.GetByHash(hash);
+            return _transactionsCache.GetTransaction(hash);
         }
 
         public decimal GetBalance(string address, int confirmations)
         {
-            var accountTransactions = _tranCache.GetConfirmedTransactions(confirmations);
+            var addressTransactions = _transactionsCache.GeTransactions(address, confirmations);
 
-            var from = accountTransactions
+            var from = addressTransactions
                 .Where(t => t.From == address)
                 .Sum(t => t.Amount);
 
-            var to = accountTransactions
+            var to = addressTransactions
                 .Where(t => t.To == address)
                 .Sum(t => t.Amount);
 

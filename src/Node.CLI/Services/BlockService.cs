@@ -52,7 +52,10 @@ namespace Node.CLI.Services
             var prevBlock = _blockChain.GetBlocks().Last();
             var isValid = _blockValidator.Validate(block, prevBlock);
 
-            if (isValid) await AddBlockInternal(block);
+            if (isValid)
+            {
+                await AddBlockInternal(block);
+            }
 
             return isValid;
         }

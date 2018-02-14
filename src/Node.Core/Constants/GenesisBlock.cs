@@ -18,7 +18,7 @@ namespace Node.Core.Constants
                     from : "World creation",
                     to: "OUR ADDRESS THAT WE HAVE PRIVATE KEY",
                     amount: 8218382,
-                    receivedOn: new DateTime(2018, 1, 1),
+                    blockIndex:0,
                     senderPublickKey: "Our public key",
                     senderSignature: "TEST",
                     hash: "ashh"

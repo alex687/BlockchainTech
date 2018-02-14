@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Node.Core.Models
+﻿namespace Node.Core.Models
 {
     public class Transaction
     {
-        public Transaction(string hash, string from, string to, long amount, string senderPublickKey, string senderSignature, DateTime receivedOn)
+        public Transaction(string hash, string from, string to, long amount, string senderPublickKey, string senderSignature, int blockIndex)
         {
             Hash = hash;
             From = from;
@@ -12,7 +10,7 @@ namespace Node.Core.Models
             Amount = amount;
             SenderPublickKey = senderPublickKey;
             SenderSignature = senderSignature;
-            ReceivedOn = receivedOn;
+            BlockIndex = blockIndex;
         }
 
         public string Hash { get; }
@@ -27,7 +25,7 @@ namespace Node.Core.Models
 
         public string SenderSignature { get; }
 
-        public DateTime ReceivedOn { get; }
+        public int BlockIndex { get; }
 
         public override bool Equals(object obj)
         {
@@ -37,7 +35,7 @@ namespace Node.Core.Models
                    && Amount.Equals(item.Amount)
                    && SenderPublickKey.Equals(item.SenderPublickKey)
                    && SenderSignature.Equals(item.SenderSignature)
-                   && ReceivedOn.Equals(item.ReceivedOn)
+                   && BlockIndex.Equals(item.BlockIndex)
                    && To.Equals(item.To);
         }
 

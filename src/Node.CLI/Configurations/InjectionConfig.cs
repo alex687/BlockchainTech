@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Node.CLI.Repositories;
+using Node.CLI.Repositories.Caches;
 using Node.CLI.Services;
 using Node.Core.Validators.Block;
 using Node.Core.Validators.Transactions;
@@ -11,7 +12,7 @@ namespace Node.CLI.Configurations
         public static IServiceCollection AddInjectionConfig(this IServiceCollection services)
         {
             services.AddSingleton<BlockRepository>();
-            services.AddSingleton<JobRepository>();
+            services.AddSingleton<MiningJobsRepository>();
             services.AddSingleton<PeerRepository>();
             services.AddSingleton<PendingTransactionRepository>();
             services.AddSingleton<TransactionCache>();
