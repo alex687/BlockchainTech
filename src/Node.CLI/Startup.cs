@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,8 +7,6 @@ using Node.CLI.Configurations;
 
 namespace Node.CLI
 {
-    using AspNetCore.IServiceCollection.AddIUrlHelper;
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -21,10 +18,8 @@ namespace Node.CLI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(c => c.AddProfile(typeof(AutoMapperConfig)));
             services.AddMediatR();
             services.AddMvc();
-            services.AddUrlHelper();
             services.AddInjectionConfig();
             services.AddSwagger();
         }

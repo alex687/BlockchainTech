@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Node.CLI.Models;
 using Node.CLI.Services;
 using Node.Core.Models;
 
@@ -29,7 +28,7 @@ namespace Node.CLI.Controllers
         }
 
         [HttpPost]
-        public async Task Send([FromBody] TransactionViewModel transaction)
+        public async Task Send([FromBody] Transaction transaction)
         {
             await _transactionService.AddPendingTransaction(transaction);
         }

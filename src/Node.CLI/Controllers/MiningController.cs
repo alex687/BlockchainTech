@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Node.CLI.Services;
 using Node.Core.Models;
@@ -17,16 +16,15 @@ namespace Node.CLI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Block> GetBlock(string address)
+        public Block GetBlock(string address)
         {
-            // we have to save the mining jobs per address
-            throw new NotImplementedException();
+            return _miningService.CreateNewBlock(address);
         }
 
         [HttpPost]
-        public IEnumerable<Block> SubmitBlock([FromBody] Block block)
+        public async Task<bool> SubmitBlock([FromBody] Block block)
         {
-            throw new NotImplementedException();
+            return await _miningService.AddBlock(block);
         }
     }
 }

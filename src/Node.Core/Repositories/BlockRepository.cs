@@ -6,7 +6,6 @@ using Node.Core.Caches;
 using Node.Core.Constants;
 using Node.Core.Models;
 using Node.Core.Validators.Block;
-using Node.Core.Validators.Transactions;
 
 namespace Node.Core.Repositories
 {

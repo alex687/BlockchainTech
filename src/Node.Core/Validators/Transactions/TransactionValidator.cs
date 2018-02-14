@@ -3,7 +3,6 @@ using System.Linq;
 using Node.Core.Caches;
 using Node.Core.Utils;
 using Node.Core.Models;
-using Node.Core.Repositories;
 
 namespace Node.Core.Validators.Transactions
 {

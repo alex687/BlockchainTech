@@ -3,9 +3,9 @@ using Node.Core.Models;
 
 namespace Node.CLI.Models
 {
-    public class AddedBlockToChainNotify : INotification
+    public class BlockNotify : INotification
     {
-        public AddedBlockToChainNotify(Block block)
+        public BlockNotify(Block block)
         {
             Block = block;
         }

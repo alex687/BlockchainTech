@@ -30,11 +30,16 @@ namespace Node.CLI.Services
             return _blockChain.GetBlock(id);
         }
 
+        public int LastBlockId()
+        {
+            return _blockChain.GetBlocks().Count() - 1;
+        }
+
         public async Task SyncBlocks(IEnumerable<Block> blocks)
         {
             if (_blockChain.TrySyncBlocks(blocks))
             {
-                var notifyObject = new ReplacedChainNotify(blocks);
+                var notifyObject = new ChainNotify(blocks);
                 await _mediator.Publish(notifyObject);
             }
         }
@@ -43,12 +48,11 @@ namespace Node.CLI.Services
         {
             if (_blockChain.TryAddBlock(block))
             {
-                var notify = new AddedBlockToChainNotify(block);
-                await _mediator.Publish(notify);
-
+				var notify = new BlockNotify(block);
+				await _mediator.Publish(notify);
                 return true;
             }
-
+	
             return false;
         }
 

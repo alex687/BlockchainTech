@@ -29,24 +29,25 @@ namespace Node.CLI.Services
             return await url.GetJsonAsync<IEnumerable<Peer>>();
         }
 
-        public async Task PostPeerList(string address)
-        {
-            var url = address.AppendPathSegments("api", "peer");
-            await url.PostJsonAsync(_peers.GetAll());
-        }
-
-        public async Task NotifyAll(ReplacedChainNotify newChain)
+        public async Task PublishChain(ChainNotify newChain)
         {
             foreach (var peer in _peers.GetAll())
                 await peer.Address.AppendPathSegments("api", "block", "sync")
                     .PostJsonAsync(newChain.Blocks);
         }
 
-        public async Task NotifyAll(AddedBlockToChainNotify newBlock)
+        public async Task PublishBlock(BlockNotify newBlock)
         {
             foreach (var peer in _peers.GetAll())
                 await peer.Address.AppendPathSegments("api", "block", "notify")
                     .PostJsonAsync(newBlock);
+        }
+
+        public async Task PublishTransaction(Transaction transaction)
+        {
+            foreach (var peer in _peers.GetAll())
+                await peer.Address.AppendPathSegments("api", "transactions")
+                    .PostJsonAsync(transaction);
         }
     }
 }
