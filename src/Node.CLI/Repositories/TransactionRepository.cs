@@ -1,44 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Node.Core;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using Node.Core.Models;
 
 namespace Node.CLI.Repositories
 {
     public class TransactionRepository
     {
-        private static readonly List<Transaction> Pending = new List<Transaction>();
-        private readonly IEnumerable<Block> _blocks;
+        private readonly ConcurrentDictionary<string, Transaction> _pending;
 
-        public TransactionRepository(IBlockchain blockchain)
+        public TransactionRepository(BlockRepository blockRepo)
         {
-            _blocks = blockchain.GetBlocks();
-        }
-
-        public IEnumerable<Transaction> GetTransactions()
-        {
-            return GetConfirmedTransactions(0);
-        }
-
-        public IEnumerable<Transaction> GetConfirmedTransactions(int confirmations)
-        {
-            var toTake = _blocks.Count() - confirmations;
-            return _blocks.Take(toTake).SelectMany(b => b.Transactions);
+            _pending = new ConcurrentDictionary<string, Transaction>();
         }
 
         public void AddPending(Transaction transaction)
         {
-            Pending.Add(transaction);
+            _pending.TryAdd(transaction.Hash, transaction);
         }
 
         public void RemovePedning(IEnumerable<Transaction> minnedTrans)
         {
-            Pending.RemoveAll(t => minnedTrans.Any(minned => t.Hash == minned.Hash));
+            foreach (var minned in minnedTrans) _pending.TryRemove(minned.Hash, out _);
         }
 
         public IEnumerable<Transaction> GetPending()
         {
-            return Pending.AsReadOnly();
+            return _pending.Values;
         }
     }
 }

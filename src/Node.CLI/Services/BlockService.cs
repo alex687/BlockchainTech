@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
+using Node.CLI.Repositories;
 using Node.Core;
 using Node.Core.Models;
 using Node.Core.Validators.Block;
@@ -12,12 +13,12 @@ namespace Node.CLI.Services
 {
     public class BlockService
     {
-        private readonly IBlockchain _blockChain;
+        private readonly BlockRepository _blockChain;
         private readonly IBlockValidator _blockValidator;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public BlockService(IBlockchain blockChain, IMediator mediator, IMapper mapper, IBlockValidator blockValidator)
+        public BlockService(BlockRepository blockChain, IMediator mediator, IMapper mapper, IBlockValidator blockValidator)
         {
             _blockChain = blockChain;
             _mediator = mediator;

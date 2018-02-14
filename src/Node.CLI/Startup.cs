@@ -29,16 +29,16 @@ namespace Node.CLI
             services.AddMediatR();
             services.AddMvc();
 
-            //services.AddSingleton<IMediator, Mediator>();
+            // injection config -> to extract in Config folder as extension
+            services.AddScoped<IBlockValidator, BlockValidator>();
+            services.AddScoped<ITransactionValidator, TransactionValidator>();
             services.AddScoped<BlockService>();
-            services.AddScoped<TransactionRepository>();
             services.AddScoped<TransactionService>();
             services.AddScoped<MiningService>();
             services.AddScoped<PeerService>();
 
-            services.AddSingleton<IBlockchain, Blockchain>();
-            services.AddSingleton<IBlockValidator, BlockValidator>();
-            services.AddSingleton<ITransactionValidator, TransactionValidator>();
+            services.AddSingleton<BlockRepository>();
+            services.AddScoped<TransactionRepository>();
 
             services.AddSwaggerGen(c =>
             {

@@ -6,13 +6,13 @@ using System.Linq;
 using Node.Core.Constants;
 using Node.Core.Models;
 
-namespace Node.Core
+namespace Node.CLI.Repositories
 {
-    public class Blockchain : IBlockchain
+    public class BlockRepository
     {
         private BlockingCollection<Block> _blocks;
 
-        public Blockchain()
+        public BlockRepository()
         {
             _blocks = new BlockingCollection<Block> {Genesis.Block};
         }
@@ -24,9 +24,6 @@ namespace Node.Core
 
         public Block GetBlock(int index)
         {
-            if (index >= _blocks.Count || index < 0)
-                throw new ArgumentException($"Index shoud be between 0 and {_blocks.Count - 1}", nameof(index));
-
             return _blocks.ElementAt(index);
         }
 
