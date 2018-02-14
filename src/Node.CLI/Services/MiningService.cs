@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Node.CLI.Repositories;
 using Node.Core.Models;
+using Node.Core.Repositories;
 
 namespace Node.CLI.Services
 {

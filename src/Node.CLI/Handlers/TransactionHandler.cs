@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MediatR;
 using Node.CLI.Models;
 using Node.Core.Repositories;
-using Node.CLI.Repositories;
 using Node.CLI.Services;
 
 namespace Node.CLI.Handlers

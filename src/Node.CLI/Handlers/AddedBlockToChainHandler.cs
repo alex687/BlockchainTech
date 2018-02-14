@@ -17,14 +17,7 @@ namespace Node.CLI.Handlers
 
         public async Task Handle(BlockNotify newBlock, CancellationToken cancellationToken)
         {
-<<<<<<< HEAD
-            await _communicationService.NotifyAll(newBlockAdded);
-=======
             await _communicationService.PublishBlock(newBlock);
-
-            var minedTransactions = newBlock.Block.Transactions;
-            _tranCache.AddTransaction(minedTransactions);
->>>>>>> cbe036fcf2c079e34d1e78d57a9361f76c6538a9
         }
     }
 }
