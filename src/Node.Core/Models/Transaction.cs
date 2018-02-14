@@ -21,12 +21,29 @@ namespace Node.Core.Models
 
         public string To { get; }
 
-        public long Amount { get; }
+        public decimal Amount { get; }
 
         public string SenderPublickKey { get; }
 
         public string SenderSignature { get; }
 
         public DateTime ReceivedOn { get; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Transaction item
+                   && Hash.Equals(item.Hash)
+                   && From.Equals(item.From)
+                   && Amount.Equals(item.Amount)
+                   && SenderPublickKey.Equals(item.SenderPublickKey)
+                   && SenderSignature.Equals(item.SenderSignature)
+                   && ReceivedOn.Equals(item.ReceivedOn)
+                   && To.Equals(item.To);
+        }
+
+        public override int GetHashCode()
+        {
+            return Hash.GetHashCode();
+        }
     }
 }

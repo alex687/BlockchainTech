@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Node.CLI.Configurations;
+using Node.CLI.Repositories;
 using Node.CLI.Services;
 using Node.Core;
 using Node.Core.Validators.Block;
@@ -30,9 +31,10 @@ namespace Node.CLI
 
             //services.AddSingleton<IMediator, Mediator>();
             services.AddScoped<BlockService>();
-            services.AddSingleton<TransactionService>();
-            services.AddSingleton<MiningService>();
-            services.AddSingleton<PeerService>();
+            services.AddScoped<TransactionRepository>();
+            services.AddScoped<TransactionService>();
+            services.AddScoped<MiningService>();
+            services.AddScoped<PeerService>();
 
             services.AddSingleton<IBlockchain, Blockchain>();
             services.AddSingleton<IBlockValidator, BlockValidator>();

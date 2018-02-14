@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace Node.Core.Models
 {
     public class Block
     {
-        public Block(int index, List<Transaction> transactions, int difficulty, string previousBlockHash, string minedBy, long nonce, DateTime createdOn, string hash)
+        public Block(int index, IEnumerable<Transaction> transactions, int difficulty, string previousBlockHash,
+            string minedBy, long nonce, DateTime createdOn, string hash)
         {
             Index = index;
             Transactions = transactions.ToImmutableList();
@@ -33,5 +35,23 @@ namespace Node.Core.Models
         public DateTime CreatedOn { get; }
 
         public string Hash { get; }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Block item
+                   && Hash.Equals(item.Hash)
+                   && Index.Equals(item.Index)
+                   && Difficulty.Equals(item.Difficulty)
+                   && PreviousBlockHash.Equals(item.PreviousBlockHash)
+                   && MinedBy.Equals(item.MinedBy)
+                   && Nonce.Equals(item.Nonce)
+                   && CreatedOn.Equals(item.CreatedOn)
+                   && Transactions.SequenceEqual(item.Transactions);
+        }
+
+        public override int GetHashCode()
+        {
+            return Hash.GetHashCode();
+        }
     }
 }

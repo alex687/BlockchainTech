@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
 using Node.Core;
 using Node.Core.Models;
+using Node.Core.Validators.Block;
 
 namespace Node.CLI.Services
 {
     public class BlockService
     {
         private readonly IBlockchain _blockChain;
+        private readonly IBlockValidator _blockValidator;
+        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public BlockService(IBlockchain blockChain, IMediator mediator)
+        public BlockService(IBlockchain blockChain, IMediator mediator, IMapper mapper, IBlockValidator blockValidator)
         {
             _blockChain = blockChain;
             _mediator = mediator;
+            _mapper = mapper;
+            _blockValidator = blockValidator;
         }
 
         public IEnumerable<Block> GetBlocks()
@@ -32,27 +37,41 @@ namespace Node.CLI.Services
 
         public async Task SyncBlocks(IEnumerable<Block> blocks)
         {
-            if (IsBlockBigger(blocks))
+            if (HasBiggerWeigth(blocks))
             {
                 _blockChain.SyncBlocks(blocks);
-                var notifyObject = new ChainViewModel {Blocks = blocks};
+
+                var blocksViewModel = blocks.Select(b => _mapper.Map<Block, BlockViewModel>(b));
+                var notifyObject = new ChainViewModel {Blocks = blocksViewModel};
                 await _mediator.Publish(notifyObject);
             }
         }
 
-        public bool AddBlock(Block block)
+        public async Task<bool> AddBlock(Block block)
         {
-            return _blockChain.AddBlock(block);
+            var prevBlock = _blockChain.GetBlocks().Last();
+            var isValid = _blockValidator.ValidateB(block, prevBlock);
+
+            if (isValid) await AddBlockInternal(block);
+
+            return isValid;
         }
 
-        private bool IsBlockBigger(IEnumerable<Block> blocks)
+        private async Task AddBlockInternal(Block block)
+        {
+            var notify = _mapper.Map<Block, BlockViewModel>(block);
+            await _mediator.Publish(notify);
+            _blockChain.AddBlock(block);
+        }
+
+        private bool HasBiggerWeigth(IEnumerable<Block> blocks)
         {
             var oldBlocks = _blockChain.GetBlocks();
             var newBlockWeight = blocks.Sum(e => e.Difficulty);
             var oldBlockWeight = oldBlocks.Sum(e => e.Difficulty);
 
-            return newBlockWeight > oldBlockWeight || 
-                   (newBlockWeight == oldBlockWeight && blocks.Count() >  oldBlocks.Count());
+            return newBlockWeight > oldBlockWeight ||
+                   newBlockWeight == oldBlockWeight && blocks.Count() > oldBlocks.Count();
         }
     }
 }

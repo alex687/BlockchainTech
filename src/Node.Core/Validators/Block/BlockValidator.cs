@@ -14,7 +14,7 @@ namespace Node.Core.Validators.Block
             _transactionValidator = transactionValidator;
         }
 
-        public bool ValidateBlock(Models.Block block, Models.Block previousBlock)
+        public bool ValidateB(Models.Block block, Models.Block previousBlock)
         {
             if (previousBlock.Index + 1 != block.Index)
             {

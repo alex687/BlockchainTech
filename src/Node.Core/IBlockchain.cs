@@ -9,13 +9,7 @@ namespace Node.Core
 
         Block GetBlock(int index);
 
-        bool AddBlock(Block block);
-
-        long GetBalance(string address, int confirmations);
-
-        bool AddPendingTransaction(Transaction transaction);
-
-        Transaction GetTransaction(string transactionHash);
+        void AddBlock(Block block);
 
         void SyncBlocks(IEnumerable<Block> blocks);
     }

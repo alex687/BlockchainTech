@@ -1,5 +1,6 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Node.CLI.Models;
 using Node.CLI.Services;
 using Node.Core.Models;
 
@@ -18,20 +19,19 @@ namespace Node.CLI.Controllers
         [HttpGet]
         public Transaction Get(string transactionHash)
         {
-            // TODO transaction ViewModel
-            throw new NotImplementedException();
+            return _transactionService.GetTransaction(transactionHash);
         }
 
         [HttpGet("{address}/confirmations/{confirmations}")]
-        public Transaction GetBalance(string address, int confirmations)
+        public decimal GetBalance(string address, int confirmations)
         {
-            throw new NotImplementedException();
+            return _transactionService.GetBalance(address, confirmations);
         }
 
         [HttpPost]
-        public void Send([FromBody] Transaction blocks)
+        public async Task Send([FromBody] TransactionViewModel transaction)
         {
-            // TODO transaction ViewModel
+            await _transactionService.AddPendingTransaction(transaction);
         }
     }
 }

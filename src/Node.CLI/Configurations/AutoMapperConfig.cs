@@ -10,6 +10,12 @@ namespace Node.CLI.Configurations
         {
             CreateMap<Peer, PeerViewModel>()
                 .ReverseMap();
+
+            CreateMap<Transaction, TransactionViewModel>()
+                .ReverseMap();
+
+            CreateMap<Block, BlockViewModel>()
+                .ReverseMap();
         }
     }
 }
