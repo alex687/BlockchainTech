@@ -14,14 +14,12 @@ namespace Node.CLI.Services
     {
         private readonly BlockRepository _blockChain;
         private readonly IBlockValidator _blockValidator;
-        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public BlockService(BlockRepository blockChain, IMediator mediator, IMapper mapper, IBlockValidator blockValidator)
+        public BlockService(BlockRepository blockChain, IMediator mediator, IBlockValidator blockValidator)
         {
             _blockChain = blockChain;
             _mediator = mediator;
-            _mapper = mapper;
             _blockValidator = blockValidator;
         }
 
@@ -41,8 +39,7 @@ namespace Node.CLI.Services
             {
                 _blockChain.SyncBlocks(blocks);
 
-                var blocksViewModel = blocks.Select(b => _mapper.Map<Block, BlockViewModel>(b));
-                var notifyObject = new ChainViewModel {Blocks = blocksViewModel};
+                var notifyObject = new ReplacedChainNotify(blocks);
                 await _mediator.Publish(notifyObject);
             }
         }
@@ -62,8 +59,9 @@ namespace Node.CLI.Services
 
         private async Task AddBlockInternal(Block block)
         {
-            var notify = _mapper.Map<Block, BlockViewModel>(block);
+            var notify = new AddedBlockToChainNotify(block);
             await _mediator.Publish(notify);
+
             _blockChain.AddBlock(block);
         }
 
