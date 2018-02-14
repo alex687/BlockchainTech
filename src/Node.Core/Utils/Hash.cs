@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Node.Core.Models;
 using Org.BouncyCastle.Crypto.Digests;
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Node.Core.Utils
 {
@@ -16,13 +17,7 @@ namespace Node.Core.Utils
                 hash = sha256.ComputeHash(Encoding.UTF8.GetBytes(valueForHash));
             }
 
-            var hashHex = new StringBuilder();
-            foreach (var b in hash)
-            {
-                hashHex.Append($"{b:x2}");
-            }
-
-            return hashHex.ToString();
+            return Hex.ToHexString(hash);
         }
 
         public static string ComputeRipeMd160Hash(this string valueForHash)
@@ -35,14 +30,7 @@ namespace Node.Core.Utils
             }
             ripeMd160.DoFinal(hash, 0);
 
-
-            var hashHex = new StringBuilder();
-            foreach (var b in hash)
-            {
-                hashHex.Append($"{b:x2}");
-            }
-
-            return hashHex.ToString();
+            return Hex.ToHexString(hash);
         }
 
         public static string ComputeHash(this Block block)
