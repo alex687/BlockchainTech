@@ -14,10 +14,10 @@ namespace Node.CLI.Handlers
     public class TransactionHandler : INotificationHandler<TransactionViewModel>
     {
         private readonly IMapper _mapper;
-        private readonly TransactionRepository _tranRepo;
+        private readonly PendingTransactionRepository _tranRepo;
         private readonly BlockRepository _blockRepo;
 
-        public TransactionHandler(IMapper mapper, TransactionRepository tranRepo, BlockRepository blockRepo)
+        public TransactionHandler(IMapper mapper, PendingTransactionRepository tranRepo, BlockRepository blockRepo)
         {
             _mapper = mapper;
             _tranRepo = tranRepo;

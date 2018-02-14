@@ -4,11 +4,11 @@ using Node.Core.Models;
 
 namespace Node.CLI.Repositories
 {
-    public class TransactionRepository
+    public class PendingTransactionRepository
     {
         private readonly ConcurrentDictionary<string, Transaction> _pending;
 
-        public TransactionRepository(BlockRepository blockRepo)
+        public PendingTransactionRepository()
         {
             _pending = new ConcurrentDictionary<string, Transaction>();
         }
