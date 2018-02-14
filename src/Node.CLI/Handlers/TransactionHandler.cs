@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
-using Node.CLI.Repositories;
+using Node.Core.Repositories;
 
 namespace Node.CLI.Handlers
 {

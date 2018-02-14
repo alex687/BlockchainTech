@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
-using Node.CLI.Repositories;
-using Node.CLI.Repositories.Caches;
+using Node.Core.Caches;
 using Node.Core.Models;
+using Node.Core.Repositories;
 using Node.Core.Validators.Transactions;
 
 namespace Node.CLI.Services
@@ -34,7 +34,7 @@ namespace Node.CLI.Services
 
         public decimal GetBalance(string address, int confirmations)
         {
-            var addressTransactions = _transactionsCache.GeTransactions(address, confirmations);
+            var addressTransactions = _transactionsCache.GeTransactions(address);
 
             var from = addressTransactions
                 .Where(t => t.From == address)

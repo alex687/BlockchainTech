@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
-using Node.CLI.Repositories;
 using Node.Core.Models;
+using Node.Core.Repositories;
 using Node.Core.Validators.Block;
 
 namespace Node.CLI.Services
@@ -13,14 +12,12 @@ namespace Node.CLI.Services
     public class BlockService
     {
         private readonly BlockRepository _blockChain;
-        private readonly IBlockValidator _blockValidator;
         private readonly IMediator _mediator;
 
-        public BlockService(BlockRepository blockChain, IMediator mediator, IBlockValidator blockValidator)
+        public BlockService(BlockRepository blockChain, IMediator mediator)
         {
             _blockChain = blockChain;
             _mediator = mediator;
-            _blockValidator = blockValidator;
         }
 
         public IEnumerable<Block> GetBlocks()
@@ -35,10 +32,8 @@ namespace Node.CLI.Services
 
         public async Task SyncBlocks(IEnumerable<Block> blocks)
         {
-            if (HasBiggerWeigth(blocks))
+            if (_blockChain.TrySyncBlocks(blocks))
             {
-                _blockChain.SyncBlocks(blocks);
-
                 var notifyObject = new ReplacedChainNotify(blocks);
                 await _mediator.Publish(notifyObject);
             }
@@ -46,33 +41,17 @@ namespace Node.CLI.Services
 
         public async Task<bool> AddBlock(Block block)
         {
-            var prevBlock = _blockChain.GetBlocks().Last();
-            var isValid = _blockValidator.Validate(block, prevBlock);
-
-            if (isValid)
+            if (_blockChain.TryAddBlock(block))
             {
-                await AddBlockInternal(block);
+                var notify = new AddedBlockToChainNotify(block);
+                await _mediator.Publish(notify);
+
+                return true;
             }
 
-            return isValid;
+            return false;
         }
 
-        private async Task AddBlockInternal(Block block)
-        {
-            var notify = new AddedBlockToChainNotify(block);
-            await _mediator.Publish(notify);
 
-            _blockChain.AddBlock(block);
-        }
-
-        private bool HasBiggerWeigth(IEnumerable<Block> blocks)
-        {
-            var oldBlocks = _blockChain.GetBlocks();
-            var newBlockWeight = blocks.Sum(e => e.Difficulty);
-            var oldBlockWeight = oldBlocks.Sum(e => e.Difficulty);
-
-            return newBlockWeight > oldBlockWeight ||
-                   newBlockWeight == oldBlockWeight && blocks.Count() > oldBlocks.Count();
-        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Node.CLI.Repositories;
-using Node.CLI.Repositories.Caches;
 using Node.CLI.Services;
+using Node.Core.Caches;
+using Node.Core.Repositories;
 using Node.Core.Validators.Block;
 using Node.Core.Validators.Transactions;
 
@@ -24,7 +24,7 @@ namespace Node.CLI.Configurations
             services.AddScoped<CommunicationService>();
             
             services.AddScoped<IBlockValidator, PassingBlockValidator>();
-            services.AddScoped<ITransactionValidator, PassingTranValidator>();
+            services.AddScoped<ITransactionValidator, TransactionValidator>();
             //services.AddScoped<IBlockValidator, BlockValidator>();
             //services.AddScoped<ITransactionValidator, TransactionValidator>();
             

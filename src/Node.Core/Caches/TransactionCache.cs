@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using Node.Core.Models;
+using Node.Core.Repositories;
 
-namespace Node.CLI.Repositories.Caches
+namespace Node.Core.Caches
 {
     public class TransactionCache
     {
-        private readonly BlockRepository _blockRepository;
         private readonly ConcurrentDictionary<string, Transaction> _transactions;
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, Transaction>> _addressTransactions;
 
-        public TransactionCache(BlockRepository blockRepository)
+        public TransactionCache()
         {
-            _blockRepository = blockRepository;
             _transactions = new ConcurrentDictionary<string, Transaction>();
             _addressTransactions = new ConcurrentDictionary<string, ConcurrentDictionary<string, Transaction>>();
         }
 
-        public List<Transaction> GeTransactions(string address, int confirmations)
+        public List<Transaction> GeTransactions(string address)
         {
-            var transactions = _addressTransactions[address];
-            var blockCount = _blockRepository.GetBlockCount();
+            if (!_addressTransactions.ContainsKey(address))
+            {
+                return new List<Transaction>();
+            }
 
-            var confirmedTransactions =
-                transactions.Values.Where(t => t.BlockIndex <= blockCount - confirmations).ToList();
-            return confirmedTransactions;
+            var transactions = _addressTransactions[address];
+          
+            return transactions.Values.ToList();
         }
 
         public Transaction GetTransaction(string hash)

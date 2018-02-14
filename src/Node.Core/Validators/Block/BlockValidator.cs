@@ -56,7 +56,7 @@ namespace Node.Core.Validators.Block
 
         private bool ContainsOnlyValidTransactions(Models.Block block)
         {
-            return block.Transactions.All(_transactionValidator.Validate);
+            return _transactionValidator.Validate(block.Transactions);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Node.Core.Models;
 
-namespace Node.CLI.Repositories
+namespace Node.Core.Repositories
 {
     public class MiningJobsRepository
     {
