@@ -35,6 +35,11 @@ namespace Node.CLI.Services
             return _blockChain.GetBlock(id);
         }
 
+        public int LastBlockId()
+        {
+            return _blockChain.GetBlocks().Count() - 1;
+        }
+
         public async Task SyncBlocks(IEnumerable<Block> blocks)
         {
             if (HasBiggerWeigth(blocks))
