@@ -22,10 +22,10 @@ namespace Node.CLI.Handlers
 
         public Task Handle(BlockViewModel newBlockAdded, CancellationToken cancellationToken)
         {
-            var minnedTransactions = newBlockAdded.Transactions
+            var minedTransactions = newBlockAdded.Transactions
                 .Select(_mapper.Map<TransactionViewModel, Transaction>);
 
-            _tranCache.AddTransactions(minnedTransactions);
+            _tranCache.AddTransactions(minedTransactions);
 
             return Task.CompletedTask;
         }

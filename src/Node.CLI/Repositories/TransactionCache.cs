@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Node.Core.Models;
-
-namespace Node.CLI.Repositories
+﻿namespace Node.CLI.Repositories
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Core.Models;
+
     public class TransactionCache
     {
         private readonly BlockRepository _blockRepo;
@@ -26,7 +26,7 @@ namespace Node.CLI.Repositories
                 .FirstOrDefault(t => t.Hash == hash);
         }
 
-        public void AddTransactions(IEnumerable<Transaction> minnedTransactions)
+        public void AddTransactions(IEnumerable<Transaction> minedTransactions)
         {
         }
 

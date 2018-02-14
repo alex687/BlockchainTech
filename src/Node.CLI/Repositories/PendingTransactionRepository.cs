@@ -1,9 +1,9 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Node.Core.Models;
-
-namespace Node.CLI.Repositories
+﻿namespace Node.CLI.Repositories
 {
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using Core.Models;
+
     public class PendingTransactionRepository
     {
         private readonly ConcurrentDictionary<string, Transaction> _pending;
@@ -18,9 +18,12 @@ namespace Node.CLI.Repositories
             _pending.TryAdd(transaction.Hash, transaction);
         }
 
-        public void RemovePedning(IEnumerable<Transaction> minnedTrans)
+        public void RemovePending(IEnumerable<Transaction> minedTrans)
         {
-            foreach (var minned in minnedTrans) _pending.TryRemove(minned.Hash, out _);
+            foreach (var mined in minedTrans)
+            {
+                _pending.TryRemove(mined.Hash, out _);
+            }
         }
 
         public IEnumerable<Transaction> GetPending()
