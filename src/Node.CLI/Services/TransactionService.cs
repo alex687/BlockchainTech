@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
 using Node.CLI.Models;
 using Node.CLI.Repositories;
@@ -15,16 +14,14 @@ namespace Node.CLI.Services
         private readonly PendingTransactionRepository _tranRepo;
         private readonly ITransactionValidator _tranValidator;
         private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
         private readonly TransactionCache _transactionsCache;
 
-        public TransactionService(TransactionCache transactionsCache, PendingTransactionRepository tranRepo, ITransactionValidator tranValidator, IMediator mediator, IMapper mapper)
+        public TransactionService(TransactionCache transactionsCache, PendingTransactionRepository tranRepo, ITransactionValidator tranValidator, IMediator mediator)
         {
             _transactionsCache = transactionsCache;
             _tranRepo = tranRepo;
             _tranValidator = tranValidator;
             _mediator = mediator;
-            _mapper = mapper;
         }
 
         public Transaction GetTransaction(string hash)
@@ -47,15 +44,13 @@ namespace Node.CLI.Services
             return to - from;
         }
 
-        public async Task AddPendingTransaction(TransactionViewModel transaction)
+        public async Task AddPendingTransaction(Transaction transaction)
         {
-            var domainObject = _mapper.Map<TransactionViewModel, Transaction>(transaction);
-
-            if (_tranValidator.Validate(domainObject))
+            if (_tranValidator.Validate(transaction))
             {
-                _tranRepo.AddPending(domainObject);
+                _tranRepo.AddPending(transaction);
 
-                await _mediator.Publish(transaction);
+                await _mediator.Publish(new TransactionNotify(transaction));
             }
         }
     }

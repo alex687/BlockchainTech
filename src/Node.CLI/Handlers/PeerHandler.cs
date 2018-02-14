@@ -1,14 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Node.CLI.Controllers;
 using Node.CLI.Models;
 using Node.CLI.Services;
 
 namespace Node.CLI.Handlers
 {
-    public class PeerSyncHandler : INotificationHandler<PeerViewModel>
+    public class PeerSyncHandler : INotificationHandler<PeerNotify>
     {
         private readonly BlockService _blockService;
         private readonly CommunicationService _communicationService;
@@ -22,8 +20,10 @@ namespace Node.CLI.Handlers
             _communicationService = communicationService;
         }
 
-        public async Task Handle(PeerViewModel newPeer, CancellationToken cancellationToken)
+        public async Task Handle(PeerNotify notify, CancellationToken cancellationToken)
         {
+            var newPeer = notify.Peer;
+
             var newPeerBlocks = await _communicationService.GetPeerBlocks(newPeer.Address);
 
             var newPeerList = await _communicationService.GetPeerList(newPeer.Address);

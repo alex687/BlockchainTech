@@ -29,7 +29,7 @@ namespace Node.CLI.Controllers
         }
 
         [HttpPost]
-        public async Task Send([FromBody] TransactionViewModel transaction)
+        public async Task Send([FromBody] Transaction transaction)
         {
             await _transactionService.AddPendingTransaction(transaction);
         }
