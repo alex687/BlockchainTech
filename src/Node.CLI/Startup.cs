@@ -8,6 +8,8 @@ using Node.CLI.Configurations;
 
 namespace Node.CLI
 {
+    using AspNetCore.IServiceCollection.AddIUrlHelper;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -22,6 +24,7 @@ namespace Node.CLI
             services.AddAutoMapper(c => c.AddProfile(typeof(AutoMapperConfig)));
             services.AddMediatR();
             services.AddMvc();
+            services.AddUrlHelper();
             services.AddInjectionConfig();
             services.AddSwagger();
         }
