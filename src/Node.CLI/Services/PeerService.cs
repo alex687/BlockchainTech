@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Flurl;
+using Flurl.Http;
 using MediatR;
 using Node.CLI.Models;
 using Node.CLI.Repositories;
@@ -10,8 +12,8 @@ namespace Node.CLI.Services
 {
     public class PeerService
     {
-        private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
         private readonly PeerRepository _peers;
 
         public PeerService(IMediator mediator, IMapper mapper, PeerRepository peers)
@@ -35,6 +37,26 @@ namespace Node.CLI.Services
         public IEnumerable<Peer> All()
         {
             return _peers.GetAll();
+        }
+
+        public async Task<IEnumerable<Block>> GetPeerBlocks(string address)
+        {
+            var url = address.AppendPathSegments("api", "block");
+            return await url.GetJsonAsync<IEnumerable<Block>>();
+        }
+
+        public async Task NotifyAll(ChainViewModel newChain)
+        {
+            foreach (var peer in _peers.GetAll())
+                await peer.Address.AppendPathSegments("api", "block", "sync")
+                    .PostJsonAsync(newChain.Blocks);
+        }
+
+        public async Task NotifyAll(BlockViewModel newBlock)
+        {
+            foreach (var peer in _peers.GetAll())
+                await peer.Address.AppendPathSegments("api", "block", "notify")
+                    .PostJsonAsync(newBlock);
         }
     }
 }
