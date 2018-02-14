@@ -1,37 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Node.CLI.Models;
 using Node.CLI.Services;
-using Node.Core.Models;
 
 namespace Node.CLI.Handlers
 {
-    using Controllers;
-    using Microsoft.AspNetCore.Mvc;
-
     public class PeerSyncHandler : INotificationHandler<PeerViewModel>
     {
         private readonly BlockService _blockService;
-        private readonly IUrlHelper _urlHelper;
+        private readonly PeerService _peerService;
 
-        public PeerSyncHandler(BlockService blockService, IUrlHelper urlHelper)
+        public PeerSyncHandler(BlockService blockService, PeerService peerService)
         {
             _blockService = blockService;
-            _urlHelper = urlHelper;
+            _peerService = peerService;
         }
 
         public async Task Handle(PeerViewModel newPeer, CancellationToken cancellationToken)
         {
-            var url = _urlHelper.Action(nameof(BlockController.GetBlocks), nameof(BlockController));
-            // get all blocks of new peer
-            var newPeerBlocks = new List<Block>();
-
+            var newPeerBlocks = await _peerService.GetPeerBlocks(newPeer.Address);
             await _blockService.SyncBlocks(newPeerBlocks);
-
-            throw new NotImplementedException();
         }
     }
 }
