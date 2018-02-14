@@ -13,21 +13,22 @@ namespace Node.CLI.Handlers
     public class BlockHandler : INotificationHandler<BlockViewModel>
     {
         private readonly IMapper _mapper;
-        private readonly PeerService _peerService;
+        private readonly CommunicationService _communicationService;
         private readonly TransactionCache _tranCache;
 
-        public BlockHandler(TransactionCache tranCache, IMapper mapper, PeerService peerService)
+        public BlockHandler(TransactionCache tranCache, IMapper mapper, CommunicationService communicationService)
         {
             _tranCache = tranCache;
             _mapper = mapper;
-            _peerService = peerService;
+            _communicationService = communicationService;
         }
 
         public async Task Handle(BlockViewModel newBlockAdded, CancellationToken cancellationToken)
         {
             var minedTransactions = newBlockAdded.Transactions
                 .Select(_mapper.Map<TransactionViewModel, Transaction>);
-            await _peerService.NotifyAll(newBlockAdded);
+
+            await _communicationService.NotifyAll(newBlockAdded);
 
             _tranCache.AddTransaction(minedTransactions);
         }

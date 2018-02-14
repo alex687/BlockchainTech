@@ -1,0 +1,1 @@
+dotnet .\bin\Debug\netcoreapp2.0\Node.CLI.dll

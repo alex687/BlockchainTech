@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -11,11 +12,10 @@ namespace Node.CLI
         {
             var restApi = BuildWebHost(args);
             Task.Run(() => { restApi.Run(); });
-            
+
             while (true)
             {
                 var command = Console.ReadLine();
-
             }
         }
 
@@ -23,7 +23,7 @@ namespace Node.CLI
         {
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseKestrel()
+                .UseKestrel(o => o.Listen(IPAddress.Loopback, 0))
                 .Build();
         }
     }
