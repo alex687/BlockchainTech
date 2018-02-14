@@ -39,9 +39,7 @@ namespace Node.CLI.Repositories
         public void SyncBlocks(IEnumerable<Block> blocks)
         {
             var newBlock = new BlockingCollection<Block>();
-
             blocks.ToList().ForEach(AddBlock);
-
             _blocks = newBlock;
         }
     }

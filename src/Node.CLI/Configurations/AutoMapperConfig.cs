@@ -8,14 +8,6 @@ namespace Node.CLI.Configurations
     {
         public AutoMapperConfig()
         {
-            CreateMap<Peer, PeerViewModel>()
-                .ReverseMap();
-
-            CreateMap<Transaction, TransactionViewModel>()
-                .ReverseMap();
-
-            CreateMap<Block, BlockViewModel>()
-                .ReverseMap();
         }
     }
 }

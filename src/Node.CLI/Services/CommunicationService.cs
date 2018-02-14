@@ -35,14 +35,14 @@ namespace Node.CLI.Services
             await url.PostJsonAsync(_peers.GetAll());
         }
 
-        public async Task NotifyAll(ChainViewModel newChain)
+        public async Task NotifyAll(ReplacedChainNotify newChain)
         {
             foreach (var peer in _peers.GetAll())
                 await peer.Address.AppendPathSegments("api", "block", "sync")
                     .PostJsonAsync(newChain.Blocks);
         }
 
-        public async Task NotifyAll(BlockViewModel newBlock)
+        public async Task NotifyAll(AddedBlockToChainNotify newBlock)
         {
             foreach (var peer in _peers.GetAll())
                 await peer.Address.AppendPathSegments("api", "block", "notify")
