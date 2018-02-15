@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Node.CLI.Services;
-using Node.Core.Caches;
+using Node.Core.Factory;
 using Node.Core.Repositories;
+using Node.Core.Repositories.Blockchain;
 using Node.Core.Validators.Block;
 using Node.Core.Validators.Transactions;
 
@@ -15,7 +16,7 @@ namespace Node.CLI.Configurations
             services.AddSingleton<MiningJobsRepository>();
             services.AddSingleton<PeerRepository>();
             services.AddSingleton<PendingTransactionRepository>();
-            services.AddSingleton<TransactionCache>();
+            services.AddSingleton<TransactionsRepository>();
 
             services.AddScoped<BlockService>();
             services.AddScoped<TransactionService>();
@@ -25,6 +26,9 @@ namespace Node.CLI.Configurations
             
             services.AddScoped<IBlockValidator, PassingBlockValidator>();
             services.AddScoped<ITransactionValidator, TransactionValidator>();
+            services.AddScoped<BlockchainFactory>();
+            services.AddSingleton<BlockchainInstanceHolder>();
+
             //services.AddScoped<IBlockValidator, BlockValidator>();
             //services.AddScoped<ITransactionValidator, TransactionValidator>();
             

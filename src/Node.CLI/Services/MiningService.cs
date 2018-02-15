@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Node.Core.Models;
 using Node.Core.Repositories;
+using Node.Core.Repositories.Blockchain;
 
 namespace Node.CLI.Services
 {

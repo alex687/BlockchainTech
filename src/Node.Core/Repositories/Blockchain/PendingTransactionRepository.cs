@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Node.Core.Models;
 
-namespace Node.Core.Repositories
+namespace Node.Core.Repositories.Blockchain
 {
     public class PendingTransactionRepository
     {

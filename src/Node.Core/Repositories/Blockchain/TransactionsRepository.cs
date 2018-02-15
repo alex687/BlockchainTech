@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using Node.Core.Models;
-using Node.Core.Repositories;
 
-namespace Node.Core.Caches
+namespace Node.Core.Repositories.Blockchain
 {
-    public class TransactionCache
+    public class TransactionsRepository
     {
         private readonly ConcurrentDictionary<string, Transaction> _transactions;
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, Transaction>> _addressTransactions;
 
-        public TransactionCache()
+        public TransactionsRepository()
         {
             _transactions = new ConcurrentDictionary<string, Transaction>();
             _addressTransactions = new ConcurrentDictionary<string, ConcurrentDictionary<string, Transaction>>();
         }
 
-        public List<Transaction> GeTransactions(string address)
+        public List<Transaction> GetTransactions(string address)
         {
             if (!_addressTransactions.ContainsKey(address))
             {
@@ -25,7 +24,6 @@ namespace Node.Core.Caches
             }
 
             var transactions = _addressTransactions[address];
-          
             return transactions.Values.ToList();
         }
 
@@ -42,7 +40,7 @@ namespace Node.Core.Caches
             }
         }
 
-        public void ReloadCache(IEnumerable<Block> blocks)
+        /*public void ReloadCache(IEnumerable<Block> blocks)
         {
             _transactions.Clear();
             _addressTransactions.Clear();
@@ -51,7 +49,7 @@ namespace Node.Core.Caches
             {
                 block.Transactions.ForEach(UpdateDictionaries);
             }
-        }
+        }*/
 
         private void UpdateDictionaries(Transaction transaction)
         {

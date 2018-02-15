@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Node.Core", "Node.Core\Node.Core.csproj", "{BCF28A90-E73B-405B-AFFF-DF8D25E2A2D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Node.Core", "Node.Core\Node.Core.csproj", "{BCF28A90-E73B-405B-AFFF-DF8D25E2A2D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Node.CLI", "Node.CLI\Node.CLI.csproj", "{63BAAFAB-715E-4BC0-82E1-6B929D12BB6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Node.CLI", "Node.CLI\Node.CLI.csproj", "{63BAAFAB-715E-4BC0-82E1-6B929D12BB6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

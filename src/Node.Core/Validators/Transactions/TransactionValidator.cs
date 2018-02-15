@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Node.Core.Caches;
 using Node.Core.Utils;
 using Node.Core.Models;
+using Node.Core.Repositories;
+using Node.Core.Repositories.Blockchain;
 
 namespace Node.Core.Validators.Transactions
 {
     public class TransactionValidator : ITransactionValidator
     {
-        private readonly TransactionCache _transactionCache;
+        private readonly TransactionsRepository _transactionsRepository;
 
-        public TransactionValidator(TransactionCache transactionCache)
+        public TransactionValidator(TransactionsRepository transactionsRepository)
         {
-            _transactionCache = transactionCache;
+            _transactionsRepository = transactionsRepository;
         }
 
         public bool Validate(IEnumerable<Transaction> transactions)
@@ -20,6 +21,16 @@ namespace Node.Core.Validators.Transactions
             var addressSpendAmmounts = new Dictionary<string, decimal>();
             foreach (var transaction in transactions)
             {
+                /*if (!IsValidAddress(transaction))
+                {
+                    return false;
+                }
+                */
+                if (!IsValidSignature(transaction))
+                {
+                    return false;
+                }
+
                 if (!addressSpendAmmounts.ContainsKey(transaction.From))
                 {
                     addressSpendAmmounts[transaction.From] = 0;
@@ -47,9 +58,14 @@ namespace Node.Core.Validators.Transactions
             return true;
         }
 
+        public bool Validate(Transaction transaction)
+        {
+            return Validate(new List<Transaction> { transaction });
+        }
+
         private decimal GetBalance(string address)
         {
-            var addressTransactions = _transactionCache.GeTransactions(address);
+            var addressTransactions = _transactionsRepository.GetTransactions(address);
 
             var from = addressTransactions
                 .Where(t => t.From == address)
@@ -62,19 +78,9 @@ namespace Node.Core.Validators.Transactions
             return to - from;
         }
 
-        public bool Validate(Transaction transaction)
+        private bool IsCoinbase(Transaction transaction)
         {
-            if (!IsValidAddress(transaction))
-            {
-                return false;
-            }
-
-            if (!IsValidSignature(transaction))
-            {
-                return false;
-            }
-
-            return true;
+            return transaction.From == "conibase"; ;
         }
 
         private bool IsValidSignature(Transaction transaction)

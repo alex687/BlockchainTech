@@ -28,9 +28,11 @@ namespace Node.CLI.Controllers
         }
 
         [HttpPost]
-        public async Task Send([FromBody] Transaction transaction)
+        public async Task<object> Send([FromBody] Transaction transaction)
         {
-            await _transactionService.AddPendingTransaction(transaction);
+            var isAccepted = await _transactionService.AddPendingTransaction(transaction);
+
+            return new { Accepted = isAccepted };
         }
     }
 }

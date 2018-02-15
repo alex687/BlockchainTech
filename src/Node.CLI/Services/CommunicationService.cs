@@ -25,7 +25,7 @@ namespace Node.CLI.Services
 
         public async Task<IEnumerable<Peer>> GetPeerList(string address)
         {
-            var url = address.AppendPathSegments("api", "peer");
+            var url = address.AppendPathSegments("api", "peers");
             return await url.GetJsonAsync<IEnumerable<Peer>>();
         }
 

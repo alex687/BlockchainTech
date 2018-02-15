@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MediatR;
 using Node.CLI.Models;
 using Node.CLI.Services;
-using Node.Core.Caches;
 
 namespace Node.CLI.Handlers
 {
