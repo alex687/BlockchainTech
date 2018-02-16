@@ -15,7 +15,7 @@ namespace Node.CLI.Controllers
             _miningService = miningService;
         }
 
-        [HttpGet]
+        [HttpGet("{address}")]
         public Block GetBlock(string address)
         {
             return _miningService.CreateNewBlock(address);

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flurl.Http" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Node.Core\Node.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Flurl">
+      <HintPath>..\..\..\..\.nuget\packages\flurl\2.6.0\lib\netstandard1.3\Flurl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

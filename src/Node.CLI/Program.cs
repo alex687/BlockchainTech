@@ -23,7 +23,8 @@ namespace Node.CLI
         {
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseKestrel(o => o.Listen(IPAddress.Loopback, 0))
+                //.UseKestrel(o => o.Listen(IPAddress.Loopback, 0))
+                .UseKestrel()
                 .Build();
         }
     }

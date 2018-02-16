@@ -32,7 +32,7 @@ namespace Node.Core.Models
 
         public string MinedBy { get; }
 
-        public long Nonce { get; }
+        public long Nonce { get; set; }
 
         public DateTime CreatedOn { get; }
 
