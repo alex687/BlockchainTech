@@ -19,22 +19,22 @@ namespace Node.CLI.Services
 
         public Transaction GetTransaction(string hash)
         {
-            return _blockchainInstance.BlockRepository.GetTransaction(hash);
+            return _blockchainInstance.Blockchain.GetTransaction(hash);
         }
 
         public IEnumerable<PendingTransaction> GetPendingTransactions()
         {
-            return _blockchainInstance.BlockRepository.GetPending();
+            return _blockchainInstance.Blockchain.GetPending();
         }
 
         public decimal GetBalance(string address, int confirmations)
         {
-            return _blockchainInstance.BlockRepository.GetBalance(address, confirmations);
+            return _blockchainInstance.Blockchain.GetBalance(address, confirmations);
         }
 
         public async Task<bool> AddPendingTransaction(PendingTransaction transaction)
         {
-            if (_blockchainInstance.BlockRepository.AddPending(transaction))
+            if (_blockchainInstance.Blockchain.AddPending(transaction))
             {
                 await _mediator.Publish(new TransactionNotify(transaction));
 

@@ -9,7 +9,7 @@ using Node.Core.Validators.Transactions;
 
 namespace Node.Core.Repositories.Blockchain
 {
-    public class BlockRepository
+    public class Blockchain
     {
         private readonly BlockingCollection<Block> _blocks;
 
@@ -19,7 +19,7 @@ namespace Node.Core.Repositories.Blockchain
         private readonly IBlockValidator _blockValidator;
         private readonly ITransactionValidator _transactionValidator;
 
-        public BlockRepository(TransactionsRepository transactionsRepository, PendingTransactionRepository pendingTransactionRepository, IBlockValidator blockValidator, ITransactionValidator transactionValidator)
+        public Blockchain(TransactionsRepository transactionsRepository, PendingTransactionRepository pendingTransactionRepository, IBlockValidator blockValidator, ITransactionValidator transactionValidator)
         {
             _transactionsRepository = transactionsRepository;
             _pendingTransactionRepository = pendingTransactionRepository;
@@ -51,6 +51,17 @@ namespace Node.Core.Repositories.Blockchain
 
                 _transactionsRepository.AddTransaction(block.Transactions);
                 _pendingTransactionRepository.RemovePending(block.Transactions);
+
+                var invalidTransaction = new List<PendingTransaction>();
+                foreach (var pendingTransaction in _pendingTransactionRepository.GetPending())
+                {
+                    if (!_transactionValidator.Validate(pendingTransaction))
+                    {
+                        invalidTransaction.Add(pendingTransaction);
+                    }
+                }
+
+                _pendingTransactionRepository.RemovePending(invalidTransaction);
 
                 return true;
             }
@@ -85,7 +96,10 @@ namespace Node.Core.Repositories.Blockchain
 
         public bool AddPending(PendingTransaction transaction)
         {
-            if (_transactionValidator.Validate(transaction))
+            var pendingTransactions = _pendingTransactionRepository.GetPending().ToList();
+            pendingTransactions.Add(transaction);
+
+            if (_transactionValidator.PendingTransactionsValidate(pendingTransactions))
             {
                 return _pendingTransactionRepository.AddPending(transaction);
             }

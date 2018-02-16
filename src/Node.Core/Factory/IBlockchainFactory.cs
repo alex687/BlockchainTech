@@ -4,6 +4,6 @@ namespace Node.Core.Factory
 {
     public interface IBlockchainFactory
     {
-        BlockRepository CreateBlockchain();
+        Blockchain CreateBlockchain();
     }
 }

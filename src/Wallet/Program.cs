@@ -13,6 +13,8 @@ namespace Wallet
             var nodeUrl = Console.ReadLine();
             _nodeCommunicator = new NodeCommunicator(nodeUrl);
 
+            LoadWallet();
+
             string input = string.Empty;
             while (!input.ToLower().Equals("exit"))
             {
@@ -51,7 +53,7 @@ namespace Wallet
             var name = Console.ReadLine();
             _walletManager = WalletManager.LoadWallet(name);
 
-            Console.WriteLine("Loaded");
+            Console.WriteLine("Loaded ..");
         }
 
         private static void ShowBalance()
@@ -86,10 +88,11 @@ namespace Wallet
             _walletManager.SignTransactionRequest(pendingTransaction);
             _walletManager.SetTransactionRequestHash(pendingTransaction);
 
-            var response = _nodeCommunicator.PublishTransaction(pendingTransaction).Result;
+            var isAccepted = _nodeCommunicator.PublishTransaction(pendingTransaction).Result;
 
-            Console.WriteLine("Transaction send:");
-            Console.WriteLine(response.IsSuccessStatusCode);
+            Console.WriteLine("Is Acceped :");
+            Console.WriteLine(isAccepted);
+
         }
 
         private static void CreateWallet()

@@ -7,9 +7,9 @@ namespace Node.CLI
     {
         public BlockchainInstanceHolder(BlockchainFactory blockchainFactory)
         {
-            BlockRepository = blockchainFactory.CreateBlockchain();
+            Blockchain = blockchainFactory.CreateBlockchain();
         }
 
-        public BlockRepository BlockRepository { get; set; }
+        public Blockchain Blockchain { get; set; }
     }
 }

@@ -11,32 +11,34 @@ namespace Node.CLI.Services
     {
         private readonly MiningJobsRepository _jobRepository;
         private readonly BlockService _blockService;
-        private readonly PendingTransactionRepository _transactionRepository;
+        private readonly TransactionService _transactionService;
 
         public MiningService(
             MiningJobsRepository jobRepository,
             BlockService blockService,
-            PendingTransactionRepository transactionRepository)
+            TransactionService transactionService)
         {
             _jobRepository = jobRepository;
             _blockService = blockService;
-            _transactionRepository = transactionRepository;
+            _transactionService = transactionService;
         }
 
         public Block CreateNewBlock(string minerAddress)
         {
-            var lastBlockId = _blockService.LastBlockId();
-            var lastBlock = _blockService.GetBlock(lastBlockId);
-            var blockIndex = ++lastBlockId;
-            var transactions = _transactionRepository.GetPending().Select(pt => new Transaction(pt, blockIndex));
+            var lastBlock = _blockService.GetBlocks().Last();
+            var blockIndex = lastBlock.Index + 1;
+            var transactions = _transactionService
+                .GetPendingTransactions()
+                .Select(pt => new Transaction(pt, blockIndex));
+
             var blockToMine = new Block(
                 blockIndex,
                 transactions,
-                5, 
-                lastBlock.Hash, 
+                5,
+                lastBlock.Hash,
                 minerAddress,
-                0, 
-                DateTime.Now, 
+                0,
+                DateTime.Now,
                 string.Empty);
 
             _jobRepository.PutMinnerJob(minerAddress, blockToMine);

@@ -2,11 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using Node.CLI.Configurations;
 using Node.CLI.InternalModels;
 using Node.Core.Factory;
 using Node.Core.Models;
-using Node.Core.Repositories.Blockchain;
 
 namespace Node.CLI.Services
 {
@@ -25,17 +23,12 @@ namespace Node.CLI.Services
 
         public IEnumerable<Block> GetBlocks()
         {
-            return _blockchainInstance.BlockRepository.GetBlocks();
+            return _blockchainInstance.Blockchain.GetBlocks();
         }
 
         public Block GetBlock(int id)
         {
-            return _blockchainInstance.BlockRepository.GetBlock(id);
-        }
-
-        public int LastBlockId()
-        {
-            return _blockchainInstance.BlockRepository.GetBlocks().Count() - 1;
+            return _blockchainInstance.Blockchain.GetBlock(id);
         }
 
         public async Task SyncBlocks(IEnumerable<Block> blocks)
@@ -53,7 +46,12 @@ namespace Node.CLI.Services
                     }
                 }
 
-                _blockchainInstance.BlockRepository = newBlockchain;
+                foreach (var pendingTransaction in _blockchainInstance.Blockchain.GetPending())
+                {
+                    newBlockchain.AddPending(pendingTransaction);
+                }
+
+                _blockchainInstance.Blockchain = newBlockchain;
                 var notifyObject = new ChainNotify(blocks);
                 await _mediator.Publish(notifyObject);
             }
@@ -61,7 +59,7 @@ namespace Node.CLI.Services
 
         public async Task<bool> AddBlock(Block block)
         {
-            if (_blockchainInstance.BlockRepository.TryAddBlock(block))
+            if (_blockchainInstance.Blockchain.TryAddBlock(block))
             {
 				var notify = new BlockNotify(block);
 				await _mediator.Publish(notify);
@@ -73,7 +71,7 @@ namespace Node.CLI.Services
 
         private bool HasBiggerWeigth(IEnumerable<Block> newBlocks)
         {
-            var currentBlocks = _blockchainInstance.BlockRepository.GetBlocks();
+            var currentBlocks = _blockchainInstance.Blockchain.GetBlocks();
             var newBlockWeight = newBlocks.Sum(e => e.Difficulty);
             var oldBlockWeight = currentBlocks.Sum(e => e.Difficulty);
 

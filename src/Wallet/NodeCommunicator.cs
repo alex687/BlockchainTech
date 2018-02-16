@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
+using Newtonsoft.Json;
 using Node.Requests;
 
 namespace Wallet
@@ -16,7 +17,7 @@ namespace Wallet
             _nodeAddress = nodeAddress;
         }
 
-        public async Task<HttpResponseMessage> PublishTransaction(PendingTransactionRequest transaction)
+        public async Task<bool> PublishTransaction(PendingTransactionRequest transaction)
         {
             var response =  await _nodeAddress.AppendPathSegments("api", "transactions")
                 .PostJsonAsync(transaction);
@@ -25,10 +26,12 @@ namespace Wallet
             {
                 var content = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine(content);
+                var definition = new { accepted = false };
+
+                return JsonConvert.DeserializeAnonymousType(content, definition).accepted;
             }
 
-            return response;
+            return false;
         }
 
         public async Task<decimal> GetBalance(string address, int confirmations)

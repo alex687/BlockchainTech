@@ -6,7 +6,7 @@ namespace Node.Core.Factory
 {
     public class BlockchainFactory : IBlockchainFactory
     {
-        public BlockRepository CreateBlockchain()
+        public Blockchain CreateBlockchain()
         {
             var transactionsRepository = new TransactionsRepository();
             var pendingTransactionRepository = new PendingTransactionRepository();
@@ -14,7 +14,7 @@ namespace Node.Core.Factory
             var transactionValidator = new TransactionValidator(transactionsRepository);
             var blockValidator = new PassingBlockValidator(transactionValidator);
 
-            var blockRepository = new BlockRepository(transactionsRepository, pendingTransactionRepository, blockValidator, transactionValidator);
+            var blockRepository = new Blockchain(transactionsRepository, pendingTransactionRepository, blockValidator, transactionValidator);
 
             return blockRepository;
         }
