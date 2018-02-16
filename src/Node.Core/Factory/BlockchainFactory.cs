@@ -9,12 +9,12 @@ namespace Node.Core.Factory
         public BlockRepository CreateBlockchain()
         {
             var transactionsRepository = new TransactionsRepository();
-            var pendingTransaction = new PendingTransactionRepository();
+            var pendingTransactionRepository = new PendingTransactionRepository();
 
             var transactionValidator = new TransactionValidator(transactionsRepository);
             var blockValidator = new PassingBlockValidator(transactionValidator);
 
-            var blockRepository = new BlockRepository(transactionsRepository, blockValidator, pendingTransaction, transactionValidator);
+            var blockRepository = new BlockRepository(transactionsRepository, pendingTransactionRepository, blockValidator, transactionValidator);
 
             return blockRepository;
         }

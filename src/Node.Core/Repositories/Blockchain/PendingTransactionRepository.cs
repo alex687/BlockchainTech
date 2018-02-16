@@ -13,9 +13,9 @@ namespace Node.Core.Repositories.Blockchain
             _pending = new ConcurrentDictionary<string, PendingTransaction>();
         }
 
-        public void AddPending(PendingTransaction transaction)
+        public bool AddPending(PendingTransaction transaction)
         {
-            _pending.TryAdd(transaction.Hash, transaction);
+            return _pending.TryAdd(transaction.Hash, transaction);
         }
 
         public void RemovePending(IEnumerable<PendingTransaction> minedTrans)

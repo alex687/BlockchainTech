@@ -14,15 +14,17 @@ namespace Node.Core.Repositories.Blockchain
         private readonly BlockingCollection<Block> _blocks;
 
         private readonly TransactionsRepository _transactionsRepository;
-        private readonly IBlockValidator _blockValidator;
         private readonly PendingTransactionRepository _pendingTransactionRepository;
+
+        private readonly IBlockValidator _blockValidator;
         private readonly ITransactionValidator _transactionValidator;
 
-        public BlockRepository(TransactionsRepository transactionsRepository, IBlockValidator blockValidator, PendingTransactionRepository pendingTransactionRepository, ITransactionValidator transactionValidator)
+        public BlockRepository(TransactionsRepository transactionsRepository, PendingTransactionRepository pendingTransactionRepository, IBlockValidator blockValidator, ITransactionValidator transactionValidator)
         {
             _transactionsRepository = transactionsRepository;
-            _blockValidator = blockValidator;
             _pendingTransactionRepository = pendingTransactionRepository;
+
+            _blockValidator = blockValidator;
             _transactionValidator = transactionValidator;
 
             _blocks = new BlockingCollection<Block> { Genesis.Block };
@@ -85,9 +87,7 @@ namespace Node.Core.Repositories.Blockchain
         {
             if (_transactionValidator.Validate(transaction))
             {
-                _pendingTransactionRepository.AddPending(transaction);
-
-                return true;
+                return _pendingTransactionRepository.AddPending(transaction);
             }
 
             return false;
