@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using Node.Core.Models;
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Utilities.Encoders;
 
-namespace Node.Core.Utils
+namespace Node.Core.Crypto
 {
     public static class Hash
     {
@@ -32,22 +30,8 @@ namespace Node.Core.Utils
 
             return Hex.ToHexString(hash);
         }
-
-        public static string ComputeHash(this Block block)
-        {
-            var transactionsHash = string.Join(string.Empty, block.Transactions.Select(t => t.ComputeHash()));
-
-            return ComputeHash(block.Index.ToString(), block.PreviousBlockHash, block.CreatedOn.ToString("O"),
-                transactionsHash, block.Difficulty.ToString(), block.Nonce.ToString());
-        }
-
-        public static string ComputeHash(this Transaction transaction)
-        {
-            return ComputeHash(transaction.From, transaction.To, transaction.SenderPublickKey,
-                transaction.SenderSignature, transaction.Amount.ToString());
-        }
-
-        private static string ComputeHash(params string[] args)
+      
+        public static string ComputeHash(params string[] args)
         {
             var valueForHash = new StringBuilder();
             foreach (var arg in args)

@@ -13,7 +13,7 @@ namespace Node.Core.Validators.Block
 
         public bool Validate(Models.Block block, Models.Block previousBlock)
         {
-            return _transactionValidator.Validate(block.Transactions);
+            return _transactionValidator.MinedTransactionsValidate(block.Transactions, block.Index);
         }
     }
 }

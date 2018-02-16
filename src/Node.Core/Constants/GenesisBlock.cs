@@ -16,12 +16,12 @@ namespace Node.Core.Constants
                 new Transaction
                 (
                     from : "World creation",
-                    to: "OUR ADDRESS THAT WE HAVE PRIVATE KEY",
+                    to: "8e74d1ae62c6aa3e08691b9a29cbd521da5f1e19",
                     amount: 8218382,
                     blockIndex:0,
                     senderPublickKey: "Our public key",
                     senderSignature: "TEST",
-                    hash: "ashh"
+                    hash: "rakiq"
                 )
             },
             hash : "87348723",

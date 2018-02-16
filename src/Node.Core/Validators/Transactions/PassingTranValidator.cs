@@ -5,7 +5,22 @@ namespace Node.Core.Validators.Transactions
 {
     public class PassingTranValidator : ITransactionValidator
     {
-        public bool Validate(IEnumerable<Transaction> transactions)
+        public bool PendingTransactionsValidate(IEnumerable<Transaction> transactions)
+        {
+            return true;
+        }
+
+        public bool PendingTransactionsValidate(IEnumerable<PendingTransaction> transactions)
+        {
+            return true;
+        }
+
+        public bool MinedTransactionsValidate(IEnumerable<Transaction> transactions, int blockIndex)
+        {
+            return true;
+        }
+
+        public bool Validate(PendingTransaction transaction)
         {
             return true;
         }

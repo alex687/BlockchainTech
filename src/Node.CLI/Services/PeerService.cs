@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
-using Node.CLI.Models;
+using Node.CLI.InternalModels;
 using Node.Core.Models;
 using Node.Core.Repositories;
 

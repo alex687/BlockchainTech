@@ -5,8 +5,10 @@ namespace Node.Core.Validators.Transactions
 {
     public interface ITransactionValidator
     {
-        bool Validate(IEnumerable<Transaction> transactions);
+        bool PendingTransactionsValidate(IEnumerable<PendingTransaction> transactions);
 
-        bool Validate(Transaction transaction);
+        bool MinedTransactionsValidate(IEnumerable<Transaction> transactions, int blockIndex);
+
+        bool Validate(PendingTransaction transaction);
     }
 }

@@ -43,7 +43,7 @@ namespace Node.Core.Validators.Block
 
             return true;
         }
-        
+
         private bool HasValidHash(Models.Block block)
         {
             if (block.Hash != block.ComputeHash())
@@ -61,7 +61,7 @@ namespace Node.Core.Validators.Block
 
         private bool ContainsOnlyValidTransactions(Models.Block block)
         {
-            return _transactionValidator.Validate(block.Transactions);
+            return _transactionValidator.MinedTransactionsValidate(block.Transactions, block.Index);
         }
     }
 }

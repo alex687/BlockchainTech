@@ -76,7 +76,12 @@ namespace Node.Core.Repositories.Blockchain
             return _transactionsRepository.GetTransaction(hash);
         }
 
-        public bool AddPending(Transaction transaction)
+        public IEnumerable<PendingTransaction> GetPending()
+        {
+            return _pendingTransactionRepository.GetPending();
+        }
+
+        public bool AddPending(PendingTransaction transaction)
         {
             if (_transactionValidator.Validate(transaction))
             {

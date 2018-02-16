@@ -1,12 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
-using Node.CLI.Configurations;
-using Node.CLI.Models;
+using Node.CLI.InternalModels;
 using Node.Core.Models;
-using Node.Core.Repositories;
-using Node.Core.Repositories.Blockchain;
-using Node.Core.Validators.Transactions;
 
 namespace Node.CLI.Services
 {
@@ -26,12 +22,17 @@ namespace Node.CLI.Services
             return _blockchainInstance.BlockRepository.GetTransaction(hash);
         }
 
+        public IEnumerable<PendingTransaction> GetPendingTransactions()
+        {
+            return _blockchainInstance.BlockRepository.GetPending();
+        }
+
         public decimal GetBalance(string address, int confirmations)
         {
             return _blockchainInstance.BlockRepository.GetBalance(address, confirmations);
         }
 
-        public async Task<bool> AddPendingTransaction(Transaction transaction)
+        public async Task<bool> AddPendingTransaction(PendingTransaction transaction)
         {
             if (_blockchainInstance.BlockRepository.AddPending(transaction))
             {

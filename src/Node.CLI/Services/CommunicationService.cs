@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
-using Node.CLI.Models;
+using Node.CLI.InternalModels;
 using Node.Core.Models;
 using Node.Core.Repositories;
 
@@ -43,7 +43,7 @@ namespace Node.CLI.Services
                     .PostJsonAsync(newBlock);
         }
 
-        public async Task PublishTransaction(Transaction transaction)
+        public async Task PublishTransaction(PendingTransaction transaction)
         {
             foreach (var peer in _peers.GetAll())
                 await peer.Address.AppendPathSegments("api", "transactions")

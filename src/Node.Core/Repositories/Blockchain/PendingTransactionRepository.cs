@@ -6,19 +6,19 @@ namespace Node.Core.Repositories.Blockchain
 {
     public class PendingTransactionRepository
     {
-        private readonly ConcurrentDictionary<string, Transaction> _pending;
+        private readonly ConcurrentDictionary<string, PendingTransaction> _pending;
 
         public PendingTransactionRepository()
         {
-            _pending = new ConcurrentDictionary<string, Transaction>();
+            _pending = new ConcurrentDictionary<string, PendingTransaction>();
         }
 
-        public void AddPending(Transaction transaction)
+        public void AddPending(PendingTransaction transaction)
         {
             _pending.TryAdd(transaction.Hash, transaction);
         }
 
-        public void RemovePending(IEnumerable<Transaction> minedTrans)
+        public void RemovePending(IEnumerable<PendingTransaction> minedTrans)
         {
             foreach (var mined in minedTrans)
             {
@@ -26,7 +26,7 @@ namespace Node.Core.Repositories.Blockchain
             }
         }
 
-        public IEnumerable<Transaction> GetPending()
+        public IEnumerable<PendingTransaction> GetPending()
         {
             return _pending.Values;
         }

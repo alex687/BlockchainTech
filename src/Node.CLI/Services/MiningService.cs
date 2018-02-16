@@ -27,10 +27,10 @@ namespace Node.CLI.Services
         {
             var lastBlockId = _blockService.LastBlockId();
             var lastBlock = _blockService.GetBlock(lastBlockId);
-            var transactions = _transactionRepository.GetPending();
-            
+            var blockIndex = ++lastBlockId;
+            var transactions = _transactionRepository.GetPending().Select(pt => new Transaction(pt, blockIndex));
             var blockToMine = new Block(
-                ++lastBlockId,
+                blockIndex,
                 transactions,
                 5, 
                 lastBlock.Hash, 

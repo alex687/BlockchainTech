@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Node.CLI.Configurations;
-using Node.CLI.Models;
+using Node.CLI.InternalModels;
 using Node.Core.Factory;
 using Node.Core.Models;
 using Node.Core.Repositories.Blockchain;

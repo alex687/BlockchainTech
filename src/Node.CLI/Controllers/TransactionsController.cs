@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Node.CLI.Services;
 using Node.Core.Models;
+using Node.Requests;
 
 namespace Node.CLI.Controllers
 {
@@ -13,6 +15,12 @@ namespace Node.CLI.Controllers
         public TransactionsController(TransactionService transactionService)
         {
             _transactionService = transactionService;
+        }
+
+        [HttpGet("pending/")]
+        public IEnumerable<PendingTransaction> GetPendingTransactions()
+        {
+            return _transactionService.GetPendingTransactions();
         }
 
         [HttpGet]
@@ -28,8 +36,9 @@ namespace Node.CLI.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Send([FromBody] Transaction transaction)
+        public async Task<object> Send([FromBody] PendingTransactionRequest tr)
         {
+            var transaction = new PendingTransaction(tr.Hash, tr.From, tr.To, tr.Amount, tr.SenderPublickKey, tr.SenderSignature);
             var isAccepted = await _transactionService.AddPendingTransaction(transaction);
 
             return new { Accepted = isAccepted };

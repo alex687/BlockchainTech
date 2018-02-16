@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Node.Core.Models;
 
-namespace Node.CLI.Models
+namespace Node.CLI.InternalModels
 {
     public class BlockNotify : INotification
     {

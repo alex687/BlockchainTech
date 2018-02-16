@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Node.Core.Models
 {
     public class Block
     {
+        [JsonConstructor]
         public Block(int index, IEnumerable<Transaction> transactions, int difficulty, string previousBlockHash,
             string minedBy, long nonce, DateTime createdOn, string hash)
         {
