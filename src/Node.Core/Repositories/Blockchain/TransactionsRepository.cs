@@ -39,18 +39,7 @@ namespace Node.Core.Repositories.Blockchain
                 UpdateDictionaries(minedTransaction);
             }
         }
-
-        /*public void ReloadCache(IEnumerable<Block> blocks)
-        {
-            _transactions.Clear();
-            _addressTransactions.Clear();
-
-            foreach (var block in blocks)
-            {
-                block.Transactions.ForEach(UpdateDictionaries);
-            }
-        }*/
-
+        
         private void UpdateDictionaries(Transaction transaction)
         {
             var fromAccountTransactions = _addressTransactions.GetOrAdd(transaction.From, new ConcurrentDictionary<string, Transaction>());

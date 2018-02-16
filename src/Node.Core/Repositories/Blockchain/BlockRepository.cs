@@ -24,6 +24,7 @@ namespace Node.Core.Repositories.Blockchain
             _blockValidator = blockValidator;
             _pendingTransactionRepository = pendingTransactionRepository;
             _transactionValidator = transactionValidator;
+
             _blocks = new BlockingCollection<Block> { Genesis.Block };
             _transactionsRepository.AddTransaction(Genesis.Block.Transactions);
         }
@@ -37,7 +38,7 @@ namespace Node.Core.Repositories.Blockchain
         {
             return _blocks.ElementAt(index);
         }
-      
+
         public bool TryAddBlock(Block block)
         {
             var prevBlock = _blocks.Last();
@@ -70,60 +71,10 @@ namespace Node.Core.Repositories.Blockchain
             return to - from;
         }
 
-
-        /*public bool TrySyncBlocks(IEnumerable<Block> blocks)
-        {
-            if (HasBiggerWeigth(blocks))
-            {
-                var transactionsRepository = new TransactionsRepository();
-                var blockValidator = new BlockValidator(new TransactionValidator(transactionsRepository));
-
-                var previous = blocks.Take(1).First();
-                foreach (var block in blocks.Skip(1))
-                {
-                    if (!blockValidator.Validate(block, previous))
-                    {
-                        return false;
-                    }
-
-                    previous = block;
-                }
-
-                var newBlock = new BlockingCollection<Block>();
-                _blocks = newBlock;
-                UpdateTransactionsCache(blocks);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        private void UpdateTransactionsCache(Block block)
-        {
-            var minedTransactions = block.Transactions;
-            _transactionsRepository.AddTransaction(minedTransactions);
-        }
-
-        private void UpdateTransactionsCache(IEnumerable<Block> blocks)
-        {
-            _transactionsRepository.ReloadCache(blocks);
-        }
-
-        private bool HasBiggerWeigth(IEnumerable<Block> newBlocks)
-        {
-            var currentBlocks = _blocks;
-            var newBlockWeight = newBlocks.Sum(e => e.Difficulty);
-            var oldBlockWeight = currentBlocks.Sum(e => e.Difficulty);
-
-            return newBlockWeight > oldBlockWeight ||
-                   newBlockWeight == oldBlockWeight && newBlocks.Count() > currentBlocks.Count();
-        }*/
         public Transaction GetTransaction(string hash)
         {
             return _transactionsRepository.GetTransaction(hash);
         }
-
 
         public bool AddPending(Transaction transaction)
         {

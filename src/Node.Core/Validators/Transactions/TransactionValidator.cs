@@ -63,21 +63,6 @@ namespace Node.Core.Validators.Transactions
             return Validate(new List<Transaction> { transaction });
         }
 
-        private decimal GetBalance(string address)
-        {
-            var addressTransactions = _transactionsRepository.GetTransactions(address);
-
-            var from = addressTransactions
-                .Where(t => t.From == address)
-                .Sum(t => t.Amount);
-
-            var to = addressTransactions
-                .Where(t => t.To == address)
-                .Sum(t => t.Amount);
-
-            return to - from;
-        }
-
         private bool IsCoinbase(Transaction transaction)
         {
             return transaction.From == "conibase"; ;
@@ -91,6 +76,21 @@ namespace Node.Core.Validators.Transactions
         private bool IsValidAddress(Transaction transaction)
         {
             return transaction.From == transaction.SenderPublickKey.ComputeRipeMd160Hash();
+        }
+
+        private decimal GetBalance(string address)
+        {
+            var addressTransactions = _transactionsRepository.GetTransactions(address);
+
+            var from = addressTransactions
+                .Where(t => t.From == address)
+                .Sum(t => t.Amount);
+
+            var to = addressTransactions
+                .Where(t => t.To == address)
+                .Sum(t => t.Amount);
+
+            return to - from;
         }
     }
 }

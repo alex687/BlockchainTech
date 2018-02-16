@@ -23,12 +23,13 @@ namespace Node.CLI.Handlers
         public async Task Handle(PeerNotify notify, CancellationToken cancellationToken)
         {
             var newPeer = notify.Peer;
-
             var newPeerBlocks = await _communicationService.GetPeerBlocks(newPeer.Address);
-
             var newPeerList = await _communicationService.GetPeerList(newPeer.Address);
 
-            foreach (var peer in newPeerList) await _peerService.Add(peer);
+            foreach (var peer in newPeerList)
+            {
+                await _peerService.Add(peer);
+            }
 
             await _blockService.SyncBlocks(newPeerBlocks);
         }

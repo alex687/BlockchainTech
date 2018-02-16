@@ -26,6 +26,11 @@ namespace Node.Core.Validators.Block
                 return false;
             }
 
+            if (previousBlock.CreatedOn > block.CreatedOn)
+            {
+                return false;
+            }
+
             if (!this.HasValidHash(block))
             {
                 return false;
