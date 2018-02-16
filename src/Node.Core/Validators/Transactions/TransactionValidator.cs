@@ -20,7 +20,6 @@ namespace Node.Core.Validators.Transactions
         {
             var conatinsSameBlockIndex = transactions.All(t => t.BlockIndex == blockIndex);
             var hasOnlyOneCoinbaseTransaction = transactions.Count(IsCoinbase) <= 1;
-            //var containDuplicateTransactions = transactions.Distinct();
 
             //TODO Check for duplicated transactions, in the block and in the repository.
 

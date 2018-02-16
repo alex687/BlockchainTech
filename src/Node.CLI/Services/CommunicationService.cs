@@ -5,6 +5,7 @@ using Flurl.Http;
 using Node.CLI.InternalModels;
 using Node.Core.Models;
 using Node.Core.Repositories;
+using Node.Requests;
 
 namespace Node.CLI.Services
 {
@@ -40,14 +41,24 @@ namespace Node.CLI.Services
         {
             foreach (var peer in _peers.GetAll())
                 await peer.Address.AppendPathSegments("api", "block", "notify")
-                    .PostJsonAsync(newBlock);
+                    .PostJsonAsync(newBlock.Block);
         }
 
         public async Task PublishTransaction(PendingTransaction transaction)
         {
+            var transactionRequest = new PendingTransactionRequest
+            {
+                Amount = transaction.Amount,
+                From = transaction.From,
+                Hash = transaction.Hash,
+                SenderPublickKey = transaction.SenderPublickKey,
+                SenderSignature = transaction.SenderSignature,
+                To = transaction.To
+            };
+
             foreach (var peer in _peers.GetAll())
                 await peer.Address.AppendPathSegments("api", "transactions")
-                    .PostJsonAsync(transaction);
+                    .PostJsonAsync(transactionRequest);
         }
     }
 }

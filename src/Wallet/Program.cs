@@ -1,20 +1,23 @@
 ﻿using System;
-using System.IO;
-using System.Text;
-using Node.Core.Crypto;
 using Node.Requests;
 
 namespace Wallet
 {
     class Program
     {
+        private static WalletManager _walletManager;
+        private static NodeCommunicator _nodeCommunicator;
         static void Main(string[] args)
         {
+            Console.WriteLine("Node url:");
+            var nodeUrl = Console.ReadLine();
+            _nodeCommunicator = new NodeCommunicator(nodeUrl);
+
             string input = string.Empty;
             while (!input.ToLower().Equals("exit"))
             {
                 Console.Write(
-                    "Enter operation [\"Create\", \"Recover\", \"Balance\", \"History\", \"Receive\", \"Send\", \"Exit\"]: ");
+                    "Enter operation [\"Create\", \"Load\", \"Balance\", \"Receive\", \"Send\", \"Exit\"]: ");
                 input = Console.ReadLine().ToLower().Trim();
 
                 switch (input)
@@ -23,16 +26,12 @@ namespace Wallet
                         CreateWallet();
                         break;
 
-                    case "recover":
-                        RecoverWallet();
+                    case "load":
+                        LoadWallet();
                         break;
 
                     case "balance":
                         ShowBalance();
-                        break;
-
-                    case "history":
-                        ShowHistory();
                         break;
 
                     case "send":
@@ -46,89 +45,59 @@ namespace Wallet
             }
         }
 
-        private static void RecoverWallet()
+        private static void LoadWallet()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Enter wallet name");
+            var name = Console.ReadLine();
+            _walletManager = WalletManager.LoadWallet(name);
+
+            Console.WriteLine("Loaded");
         }
 
         private static void ShowBalance()
         {
-            throw new NotImplementedException();
+            var balance =  _nodeCommunicator.GetBalance(_walletManager.GetAddress(), 0).Result;
+
+            Console.WriteLine(balance);
         }
 
-        private static void ShowHistory()
-        {
-            throw new NotImplementedException();
-        }
 
         private static void Receive()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Address Recieve {_walletManager.GetAddress()}");
         }
 
         private static void Send()
         {
-            var privateKey = LoadPrivateKey();
-              string publicKey = Crypto.GetPublicKey(privateKey);
+            Console.WriteLine("To Address:");
+            var to = Console.ReadLine();
 
-            Console.WriteLine(publicKey);
-            Console.WriteLine(publicKey.ComputeRipeMd160Hash());
+            Console.WriteLine("Ammount:");
+            var ammount = decimal.Parse(Console.ReadLine());
 
-
-            var t = new PendingTransactionRequest
+            var pendingTransaction = new PendingTransactionRequest
             {
-                From = publicKey.ComputeRipeMd160Hash(),
-                To = "Ti si tiha",
-                SenderPublickKey = publicKey,
-                Amount = 50
+                SenderPublickKey = _walletManager.GetPublicKey(),
+                From = _walletManager.GetAddress(),
+                To = to,
+                Amount = ammount
             };
 
-            var dataForSign = t.From + t.To + t.Amount;
+            _walletManager.SignTransactionRequest(pendingTransaction);
+            _walletManager.SetTransactionRequestHash(pendingTransaction);
 
-            t.SenderSignature =Crypto.GetSignature(dataForSign, privateKey);
+            var response = _nodeCommunicator.PublishTransaction(pendingTransaction).Result;
 
-            t.Hash = Hash.ComputeHash(t.From, t.To, t.SenderPublickKey,
-                t.SenderSignature, t.Amount.ToString());
-
-
-            Console.WriteLine("Transaction !!!!");
-            Console.WriteLine(t.From);
-            Console.WriteLine(t.To);
-            Console.WriteLine(t.SenderPublickKey);
-            Console.WriteLine(t.Amount);
-            Console.WriteLine(t.SenderSignature);
-            Console.WriteLine(t.Hash);
-
-        }
-
-        private static string LoadPrivateKey()
-        {
-            string privateKey = File.ReadAllText($"wallet/private_key", Encoding.UTF8);
-            return privateKey.Trim();
+            Console.WriteLine("Transaction send:");
+            Console.WriteLine(response.IsSuccessStatusCode);
         }
 
         private static void CreateWallet()
         {
-            string path = Path.Combine("wallet");
-            string privateKeyFilePath = Path.Combine(path, "private_key");
+            Console.WriteLine("Enter wallet name");
+            var name = Console.ReadLine();
 
-            // Create the output directory if it does not exist already.
-            Directory.CreateDirectory(path);
-
-            // Let's not overwrite existing keys.
-            if (File.Exists(privateKeyFilePath))
-            {
-                return;
-            }
-
-            string newPrivateKey = Crypto.GeneratePrivateKey();
-
-            // NOTE: We use the nodes port to distiguish between different nodes running locally.
-            using (FileStream fileStream = File.Create(privateKeyFilePath))
-            using (StreamWriter writer = new StreamWriter(fileStream, Encoding.UTF8))
-            {
-                writer.Write(newPrivateKey);
-            }
+            _walletManager = new WalletManager(name);
         }
     }
 }
