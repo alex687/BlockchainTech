@@ -13,9 +13,11 @@ namespace Node.CLI
             var restApi = BuildWebHost(args);
             Task.Run(() => { restApi.Run(); });
 
-            while (true)
+            string command = string.Empty;
+            while (command != "exit")
             {
-                var command = Console.ReadLine();
+                Console.Write(">");
+                command = Console.ReadLine()?.ToLower();
             }
         }
 
