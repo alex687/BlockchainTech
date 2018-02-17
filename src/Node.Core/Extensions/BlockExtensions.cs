@@ -2,9 +2,9 @@
 using Node.Core.Crypto;
 using Node.Core.Models;
 
-namespace Node.Core.Utils
+namespace Node.Core.Extensions
 {
-    public static class BlockUtils
+    public static class BlockExtensions
     {
         public static string ComputeHash(this Block block)
         {

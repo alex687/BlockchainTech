@@ -6,6 +6,8 @@ namespace Node.Core.Constants
 {
     public static class Genesis
     {
+        public static readonly string MinerRewardSource = "coinbase";
+
         public static readonly Block Block = new Block
         (
             index:0,

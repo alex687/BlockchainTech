@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
@@ -19,27 +17,25 @@ namespace Wallet
 
         public async Task<bool> PublishTransaction(PendingTransactionRequest transaction)
         {
-            var response =  await _nodeAddress.AppendPathSegments("api", "transactions")
+            var response =  await _nodeAddress
+                .AppendPathSegments("api", "transactions")
                 .PostJsonAsync(transaction);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-                var content = await response.Content.ReadAsStringAsync();
-
-                var definition = new { accepted = false };
-
-                return JsonConvert.DeserializeAnonymousType(content, definition).accepted;
+                return false;
             }
 
-            return false;
+            var content = await response.Content.ReadAsStringAsync();
+            var definition = new { accepted = false };
+            return JsonConvert.DeserializeAnonymousType(content, definition).accepted;
         }
 
         public async Task<decimal> GetBalance(string address, int confirmations)
         {
-            var response = await _nodeAddress.AppendPathSegments("api", "transactions", address, "confirmations", confirmations).GetAsync();
-            var ammount = await response.Content.ReadAsStringAsync();
-
-            return decimal.Parse(ammount);
+            return await _nodeAddress
+                .AppendPathSegments("api", "transactions", address, "confirmations", confirmations)
+                .GetJsonAsync<decimal>();
         }
     }
 }

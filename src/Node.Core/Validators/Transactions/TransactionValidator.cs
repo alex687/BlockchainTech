@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Node.Core.Constants;
 using Node.Core.Crypto;
-using Node.Core.Utils;
+using Node.Core.Extensions;
 using Node.Core.Models;
 using Node.Core.Repositories.Blockchain;
 
@@ -18,12 +19,28 @@ namespace Node.Core.Validators.Transactions
 
         public bool MinedTransactionsValidate(IEnumerable<Transaction> transactions, int blockIndex)
         {
+            var validMinerTransaction = true;
             var conatinsSameBlockIndex = transactions.All(t => t.BlockIndex == blockIndex);
-            var hasOnlyOneCoinbaseTransaction = transactions.Count(IsCoinbase) <= 1;
+            var onlyOneMinerReward = transactions.Count(IsCoinbase) <= 1;
+            var anyDuplicated = IsAllUniqueTransactions(transactions);
+            var minerRewardTransaction = transactions.FirstOrDefault(IsCoinbase);
 
-            //TODO Check for duplicated transactions, in the block and in the repository.
+            if (minerRewardTransaction != null)
+            {
+                transactions = transactions.Except(new[] { minerRewardTransaction });
+                validMinerTransaction = IsRewardInRange(minerRewardTransaction, transactions);
+            }
 
-            return hasOnlyOneCoinbaseTransaction && conatinsSameBlockIndex && PendingTransactionsValidate(transactions);
+            return PendingTransactionsValidate(transactions) &&
+                   validMinerTransaction &&
+                   onlyOneMinerReward &&
+                   conatinsSameBlockIndex &&
+                   anyDuplicated;
+        }
+
+        private static bool IsAllUniqueTransactions(IEnumerable<Transaction> transactions)
+        {
+            return transactions.GroupBy(x => x.Hash).All(g => g.Count() <= 1);
         }
 
         public bool PendingTransactionsValidate(IEnumerable<PendingTransaction> transactions)
@@ -70,7 +87,7 @@ namespace Node.Core.Validators.Transactions
 
         private bool IsCoinbase(PendingTransaction transaction)
         {
-            return transaction.From == "conibase"; ;
+            return transaction.From == Genesis.MinerRewardSource;
         }
 
         private bool IsValidSignature(PendingTransaction transaction)
@@ -86,6 +103,11 @@ namespace Node.Core.Validators.Transactions
         private bool IsValidHash(PendingTransaction transaction)
         {
             return transaction.Hash == transaction.ComputeHash();
+        }
+
+        private bool IsRewardInRange(PendingTransaction minerRewardTransaction, IEnumerable<Transaction> transactions)
+        {
+            return transactions.CalculateReward() >= minerRewardTransaction.Amount;
         }
 
         private decimal GetBalance(string address)

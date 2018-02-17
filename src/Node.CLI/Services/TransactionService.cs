@@ -37,7 +37,6 @@ namespace Node.CLI.Services
             if (_blockchainInstance.Blockchain.AddPending(transaction))
             {
                 await _mediator.Publish(new TransactionNotify(transaction));
-
                 return true;
             }
 

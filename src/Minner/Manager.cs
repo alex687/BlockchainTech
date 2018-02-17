@@ -8,14 +8,14 @@ namespace Minner
     public class Manager
     {
         private readonly Logger _logger;
-        private readonly NodeCommunicator _nodeCommunicatorService;
+        private readonly BlockHandler _blockHandler;
         private CancellationTokenSource _cancelationSource;
         private Block _currentBlock;
 
-        public Manager(Logger logger, NodeCommunicator nodeCommunicatorService)
+        public Manager(Logger logger, BlockHandler blockHandler)
         {
             _logger = logger;
-            _nodeCommunicatorService = nodeCommunicatorService;
+            _blockHandler = blockHandler;
         }
 
         public async Task Start()
@@ -35,11 +35,10 @@ namespace Minner
 
         private async Task Mine()
         {
-            var block = await _nodeCommunicatorService.GetBlockToMine();
-            if (_currentBlock == null || _currentBlock.Index < block.Index || _currentBlock.Transactions.Count < block.Transactions.Count)
+            var block = await _blockHandler.GetBlockToMine();
+            if (block != null && (_currentBlock == null || _currentBlock.Index < block.Index))
             {
                 _currentBlock = block;
-
                 _cancelationSource?.Cancel();
                 CreateNewWorker();
             }
@@ -54,7 +53,8 @@ namespace Minner
                 .ContinueWith(async block =>
                 {
                     _cancelationSource.Cancel();
-                    await _nodeCommunicatorService.SendBlock(await block);
+                    _logger.Log($"Job {(await block).Index} minned!");
+                    await _blockHandler.SendMinnedBlock(await block);
                 });
         }
 

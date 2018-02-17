@@ -1,14 +1,15 @@
 ﻿using Node.Core.Crypto;
 using Node.Core.Models;
 
-namespace Node.Core.Utils
+namespace Node.Core.Extensions
 {
-    public static class TransactionUtils
+    public static class PendingTransactionExtensions
     {
         public static bool IsValidSignature(this PendingTransaction transaction)
         {
             var dataForSign = transaction.From + transaction.To + transaction.Amount;
-            return Crypto.Crypto.VerifySignature(transaction.SenderPublickKey, dataForSign, transaction.SenderSignature);
+            return Crypto.Crypto.VerifySignature(transaction.SenderPublickKey, dataForSign,
+                transaction.SenderSignature);
         }
 
         public static string ComputeHash(this PendingTransaction transaction)

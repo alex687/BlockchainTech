@@ -7,6 +7,7 @@ namespace Wallet
     {
         private static WalletManager _walletManager;
         private static NodeCommunicator _nodeCommunicator;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Node url:");
@@ -91,7 +92,6 @@ namespace Wallet
 
             Console.WriteLine("Is Acceped :");
             Console.WriteLine(isAccepted);
-
         }
 
         private static void CreateWallet()

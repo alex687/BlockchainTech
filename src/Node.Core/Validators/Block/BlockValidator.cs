@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Node.Core.Utils;
+using Node.Core.Extensions;
 using Node.Core.Validators.Transactions;
 
 namespace Node.Core.Validators.Block

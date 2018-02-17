@@ -16,10 +16,12 @@ namespace Node.CLI.Handlers
             _communicationService = communicationService;
         }
 
-        public async Task Handle(TransactionNotify notify, CancellationToken cancellationToken)
+        public Task Handle(TransactionNotify notify, CancellationToken cancellationToken)
         {
             var transaction = notify.Transaction;
-            await _communicationService.PublishTransaction(transaction);
+            _communicationService.PublishTransaction(transaction);
+
+            return Task.CompletedTask;
         }
     }
 }

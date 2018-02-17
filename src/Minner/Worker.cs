@@ -1,5 +1,5 @@
-﻿using Node.Core.Models;
-using Node.Core.Utils;
+﻿using Node.Core.Extensions;
+using Node.Core.Models;
 
 namespace Minner
 {

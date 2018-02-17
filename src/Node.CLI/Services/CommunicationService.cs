@@ -44,7 +44,7 @@ namespace Node.CLI.Services
                     .PostJsonAsync(newBlock.Block);
         }
 
-        public async Task PublishTransaction(PendingTransaction transaction)
+        public void PublishTransaction(PendingTransaction transaction)
         {
             var transactionRequest = new PendingTransactionRequest
             {
@@ -57,8 +57,10 @@ namespace Node.CLI.Services
             };
 
             foreach (var peer in _peers.GetAll())
-                await peer.Address.AppendPathSegments("api", "transactions")
+            {
+                peer.Address.AppendPathSegments("api", "transactions")
                     .PostJsonAsync(transactionRequest);
+            }
         }
     }
 }
