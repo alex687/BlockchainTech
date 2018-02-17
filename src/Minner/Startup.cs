@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Minner
 {
@@ -6,7 +7,9 @@ namespace Minner
     {
         public static void Main(string[] args)
         {
-            var nodeUrl = "http://localhost:5000";
+            Console.WriteLine("Enter nodeUrl");
+            //var nodeUrl = "http://localhost:5000";
+            var nodeUrl = Console.ReadLine();
             var minerAddress = "MinnerAddress";
 
             var logger = new Logger();

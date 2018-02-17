@@ -12,9 +12,9 @@ namespace Node.CLI.Services
     {
         private readonly IMediator _mediator;
         private readonly BlockchainInstanceHolder _blockchainInstance;
-        private readonly BlockchainFactory _factory;
+        private readonly IBlockchainFactory _factory;
 
-        public BlockService(IMediator mediator, BlockchainInstanceHolder blockchainInstance, BlockchainFactory factory)
+        public BlockService(IMediator mediator, BlockchainInstanceHolder blockchainInstance, IBlockchainFactory factory)
         {
             _mediator = mediator;
             _blockchainInstance = blockchainInstance;

@@ -18,7 +18,7 @@ namespace Node.CLI.Configurations
             services.AddScoped<PeerService>();
             services.AddScoped<CommunicationService>();
             
-            services.AddScoped<BlockchainFactory>();
+            services.AddScoped<IBlockchainFactory, BlockchainFactory>();
             services.AddSingleton<BlockchainInstanceHolder>();
             
             return services;

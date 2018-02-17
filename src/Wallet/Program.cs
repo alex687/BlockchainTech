@@ -13,7 +13,6 @@ namespace Wallet
             var nodeUrl = Console.ReadLine();
             _nodeCommunicator = new NodeCommunicator(nodeUrl);
 
-            LoadWallet();
 
             string input = string.Empty;
             while (!input.ToLower().Equals("exit"))
@@ -101,6 +100,7 @@ namespace Wallet
             var name = Console.ReadLine();
 
             _walletManager = new WalletManager(name);
+            _walletManager.SaveWallet();
         }
     }
 }

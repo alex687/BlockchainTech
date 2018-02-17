@@ -12,7 +12,7 @@ namespace Node.Core.Factory
             var pendingTransactionRepository = new PendingTransactionRepository();
 
             var transactionValidator = new TransactionValidator(transactionsRepository);
-            var blockValidator = new PassingBlockValidator(transactionValidator);
+            var blockValidator = new BlockValidator(transactionValidator);
 
             var blockRepository = new Blockchain(transactionsRepository, pendingTransactionRepository, blockValidator, transactionValidator);
 

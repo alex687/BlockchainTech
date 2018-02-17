@@ -25,16 +25,18 @@ namespace Minner
                 try
                 {
                     await Mine();
-                    await Task.Delay(new TimeSpan(0, 0, 5), _cancelationSource.Token);
+                    await Task.Delay(new TimeSpan(0, 0, 5));
                 }
-                catch{}
+                catch(Exception e )
+                {
+                }
             }
         }
 
         private async Task Mine()
         {
             var block = await _nodeCommunicatorService.GetBlockToMine();
-            if (_currentBlock == null || _currentBlock.Index < block.Index)
+            if (_currentBlock == null || _currentBlock.Index < block.Index || _currentBlock.Transactions.Count < block.Transactions.Count)
             {
                 _currentBlock = block;
 
