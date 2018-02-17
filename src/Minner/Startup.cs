@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 
 namespace Minner
 {
@@ -9,16 +9,15 @@ namespace Minner
             var nodeUrl = "http://localhost:5000";
             var minerAddress = "MinnerAddress";
 
-            var communicationService = new Communication(nodeUrl, minerAddress);
+            var logger = new Logger();
 
-            var manager = new Manager(communicationService);
+            var communicationService = new NodeCommunicator(logger, nodeUrl, minerAddress);
 
-            manager.Start();
+            var manager = new Manager(logger, communicationService);
 
-            while (true)
-            {
-                var command = Console.ReadLine();
-            }
+            var task = manager.Start();
+
+            Task.WaitAll(task);
         }
     }
 }

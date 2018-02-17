@@ -2,9 +2,6 @@
 using Node.CLI.Services;
 using Node.Core.Factory;
 using Node.Core.Repositories;
-using Node.Core.Repositories.Blockchain;
-using Node.Core.Validators.Block;
-using Node.Core.Validators.Transactions;
 
 namespace Node.CLI.Configurations
 {

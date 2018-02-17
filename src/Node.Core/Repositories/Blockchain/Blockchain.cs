@@ -52,14 +52,10 @@ namespace Node.Core.Repositories.Blockchain
                 _transactionsRepository.AddTransaction(block.Transactions);
                 _pendingTransactionRepository.RemovePending(block.Transactions);
 
-                var invalidTransaction = new List<PendingTransaction>();
-                foreach (var pendingTransaction in _pendingTransactionRepository.GetPending())
-                {
-                    if (!_transactionValidator.Validate(pendingTransaction))
-                    {
-                        invalidTransaction.Add(pendingTransaction);
-                    }
-                }
+                var invalidTransaction = _pendingTransactionRepository
+                    .GetPending()
+                    .Where(tran => !_transactionValidator.Validate(tran))
+                    .ToList();
 
                 _pendingTransactionRepository.RemovePending(invalidTransaction);
 

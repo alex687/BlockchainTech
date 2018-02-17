@@ -82,7 +82,7 @@ namespace Wallet
 
         private static string TrimName(string name)
         {
-            return name.Trim(new[] { ' ', '_' });
+            return name.Trim(' ', '_');
         }
     }
 }

@@ -7,13 +7,15 @@ namespace Minner
 {
     public class Manager
     {
-        private readonly Communication _communicationService;
+        private readonly Logger _logger;
+        private readonly NodeCommunicator _nodeCommunicatorService;
         private CancellationTokenSource _cancelationSource;
         private Block _currentBlock;
 
-        public Manager(Communication communicationService)
+        public Manager(Logger logger, NodeCommunicator nodeCommunicatorService)
         {
-            _communicationService = communicationService;
+            _logger = logger;
+            _nodeCommunicatorService = nodeCommunicatorService;
         }
 
         public async Task Start()
@@ -31,31 +33,33 @@ namespace Minner
 
         private async Task Mine()
         {
-            var block = await _communicationService.GetBlockToMine();
+            var block = await _nodeCommunicatorService.GetBlockToMine();
             if (_currentBlock == null || _currentBlock.Index < block.Index)
             {
                 _currentBlock = block;
 
                 _cancelationSource?.Cancel();
-                await CreateNewWorker();
+                CreateNewWorker();
             }
         }
 
-        private async Task CreateNewWorker()
+        private void CreateNewWorker()
         {
+            _logger.Log($"Creating new minning job for block: {_currentBlock.Index}");
             _cancelationSource = new CancellationTokenSource();
 
             Task.Run(() => Compute(), _cancelationSource.Token)
                 .ContinueWith(async block =>
                 {
                     _cancelationSource.Cancel();
-                    _communicationService.SendBlock(await block);
+                    await _nodeCommunicatorService.SendBlock(await block);
                 });
         }
 
         private Block Compute()
         {
-            return new Worker(_currentBlock, long.MinValue, long.MaxValue).Compute();
+            var worker = new Worker(_currentBlock, long.MinValue, long.MaxValue);
+            return worker.Compute();
         }
     }
 }

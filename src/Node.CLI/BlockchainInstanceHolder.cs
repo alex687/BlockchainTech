@@ -5,7 +5,7 @@ namespace Node.CLI
 {
     public class BlockchainInstanceHolder
     {
-        public BlockchainInstanceHolder(BlockchainFactory blockchainFactory)
+        public BlockchainInstanceHolder(IBlockchainFactory blockchainFactory)
         {
             Blockchain = blockchainFactory.CreateBlockchain();
         }
