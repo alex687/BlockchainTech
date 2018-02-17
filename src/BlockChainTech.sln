@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2024
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Node.Core", "Node.Core\Node.Core.csproj", "{BCF28A90-E73B-405B-AFFF-DF8D25E2A2D5}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Node.Requests", "Node.Requests\Node.Requests.csproj", "{1595ED25-A564-49EB-8ED4-BD0664C9B17B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Minner", "Minner\Minner.csproj", "{B036017F-65F3-4DA3-95A0-FC842F375A7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorer", "Explorer\Explorer.csproj", "{530AE7EB-42DD-40AA-AC68-3E8948424D52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{B036017F-65F3-4DA3-95A0-FC842F375A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B036017F-65F3-4DA3-95A0-FC842F375A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B036017F-65F3-4DA3-95A0-FC842F375A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{530AE7EB-42DD-40AA-AC68-3E8948424D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530AE7EB-42DD-40AA-AC68-3E8948424D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530AE7EB-42DD-40AA-AC68-3E8948424D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530AE7EB-42DD-40AA-AC68-3E8948424D52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
