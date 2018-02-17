@@ -20,7 +20,8 @@ namespace Minner
 
         public async Task<Block> GetBlockToMine()
         {
-            var minnerAddress = _minerPublicKey.ComputeRipeMd160Hash();
+            //var minnerAddress = _minerPublicKey.ComputeRipeMd160Hash();
+            var minnerAddress = _minerPublicKey;
             var block = await _communicationService.GetBlockToMine(minnerAddress);
 
             var rewardAmount = block.Transactions

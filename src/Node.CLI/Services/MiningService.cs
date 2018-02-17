@@ -52,8 +52,8 @@ namespace Node.CLI.Services
 
         private static Transaction CreateMinerReward(string minerAddress, decimal  reward, int blockIndex)
         {
-            var hash = Hash.ComputeHash(Genesis.MinerRewardSource, minerAddress, string.Empty, string.Empty, reward.ToString());
-            return new Transaction(hash, Genesis.MinerRewardSource, minerAddress, reward, string.Empty, string.Empty, blockIndex);
+            var hash = Hash.ComputeHash(Genesis.MinerRewardSource, minerAddress, string.Empty, blockIndex.ToString(), reward.ToString());
+            return new Transaction(hash, Genesis.MinerRewardSource, minerAddress, reward, string.Empty, blockIndex.ToString(), blockIndex);
         }
 
         public async Task<bool> AddBlock(Block block)
