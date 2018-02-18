@@ -1,4 +1,5 @@
-﻿using Node.Core.Extensions;
+﻿using System.Threading;
+using Node.Core.Extensions;
 using Node.Core.Models;
 
 namespace Minner
@@ -18,10 +19,15 @@ namespace Minner
             _acceptance = new Acceptance(block.Difficulty);
         }
 
-        public Block Compute()
+        public Block Compute(CancellationToken cancellationToken)
         {
             for (var index = _leftRange; index < _rightRange; index++)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
                 _block.Nonce = index;
                 var hash = _block.ComputeHash();
 

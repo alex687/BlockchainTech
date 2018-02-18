@@ -1,0 +1,29 @@
+﻿@model System.Collections.Generic.IEnumerable<Node.Core.Models.Block>
+
+@{
+    ViewBag.Title = "Blocks";
+    Layout = "_Layout";
+}
+
+<h2>Blocks</h2>
+<table class="table table-striped">
+<thead>
+<tr>
+    <th>Index</th>
+    <th>CreatedOn</th>
+    <th>Hash</th>
+</tr>
+</thead>
+<tbody>
+@{
+    foreach (var block in (Model))
+    {
+        <tr>
+            <td><a asp-area="" asp-controller="Block" asp-action="Details" asp-route-id="@block.Index">@block.Index</a></td>
+            <td>@block.Hash</td>
+            <td>@block.CreatedOn</td>
+        </tr>
+    }
+}
+</tbody>
+</table>

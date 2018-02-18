@@ -49,7 +49,7 @@ namespace Minner
             _logger.Log($"Creating new minning job for block: {_currentBlock.Index}");
             _cancelationSource = new CancellationTokenSource();
 
-            Task.Run(() => Compute(), _cancelationSource.Token)
+            Task.Run(() => Compute(_cancelationSource.Token))
                 .ContinueWith(async block =>
                 {
                     _cancelationSource.Cancel();
@@ -58,10 +58,10 @@ namespace Minner
                 });
         }
 
-        private Block Compute()
+        private Block Compute(CancellationToken cancellationToken)
         {
             var worker = new Worker(_currentBlock, long.MinValue, long.MaxValue);
-            return worker.Compute();
+            return worker.Compute(cancellationToken);
         }
     }
 }

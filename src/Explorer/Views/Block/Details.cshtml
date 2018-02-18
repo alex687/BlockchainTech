@@ -1,0 +1,47 @@
+﻿@model Node.Core.Models.Block
+
+@{
+    ViewBag.Title = "Block details";
+    Layout = "_Layout";
+}
+
+<h2>Blok details: @Model.Index</h2>
+<div class="row">
+    <table class="table table-striped">
+        <tbody>
+        
+        <tr>
+            <td>Index</td>
+            <td>@Model.Index</td>
+        </tr>
+        <tr>
+            <td>Transactions</td>
+            <td>@Model.Transactions.Count</td>
+        </tr>
+        <tr>
+            <td>Difficulty</td>
+            <td>@Model.Difficulty</td>
+        </tr>
+        <tr>
+            <td>PreviousBlockHash</td>
+            <td>@Model.PreviousBlockHash</td>
+        </tr>
+        <tr>
+            <td>MinedBy</td>
+            <td>@Model.MinedBy</td>
+        </tr>
+        <tr>
+            <td>Nonce</td>
+            <td>@Model.Nonce</td>
+        </tr>
+        <tr>
+            <td>CreatedOn</td>
+            <td>@Model.CreatedOn</td>
+        </tr>
+        <tr>
+            <td>Hash</td>
+            <td>@Model.Hash</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
