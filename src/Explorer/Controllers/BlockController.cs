@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Explorer.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Explorer.Controllers
@@ -23,12 +22,27 @@ namespace Explorer.Controllers
             return View(orderedBlocks);
         }
 
-
         public async Task<IActionResult> Details(int id)
         {
-            var blocks = await _nodeCommunicator.GetBlock(id);
+            var block = await _nodeCommunicator.GetBlock(id);
+            if (block == null)
+            {
+                View("NotFound", id);
+            }
 
-            return View(blocks);
+            return View(block);
+        }
+
+
+        public async Task<IActionResult> Transactions(int id)
+        {
+            var block = await _nodeCommunicator.GetBlock(id);
+            if (block == null)
+            {
+                View("NotFound", id);
+            }
+
+            return View(block);
         }
     }
 }

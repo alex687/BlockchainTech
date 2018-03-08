@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.IEnumerable<Node.Core.Models.Block>
+﻿@model IEnumerable<Node.Core.Models.Block>
 
 @{
     ViewBag.Title = "Blocks";
@@ -12,6 +12,7 @@
     <th>Index</th>
     <th>CreatedOn</th>
     <th>Hash</th>
+    <th>Transactions</th>
 </tr>
 </thead>
 <tbody>
@@ -20,8 +21,9 @@
     {
         <tr>
             <td><a asp-area="" asp-controller="Block" asp-action="Details" asp-route-id="@block.Index">@block.Index</a></td>
-            <td>@block.Hash</td>
             <td>@block.CreatedOn</td>
+            <td>@block.Hash</td>
+            <td><a asp-area="" asp-controller="Block" asp-action="Transactions" asp-route-id="@block.Index">@block.Transactions.Count Transactions</a></td>
         </tr>
     }
 }

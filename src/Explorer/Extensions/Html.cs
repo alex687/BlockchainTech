@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Explorer.Models.Block
+namespace Explorer.Extensions
 {
-    public class BlockViewModel
+    public class Html
     {
     }
 }

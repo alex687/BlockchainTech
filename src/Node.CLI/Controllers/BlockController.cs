@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Node.CLI.Services;
 using Node.Core.Models;
@@ -25,7 +27,15 @@ namespace Node.CLI.Controllers
         [HttpGet("{id}")]
         public Block GetBlock(int id)
         {
-            return _blockService.GetBlock(id);
+            try
+            {
+                return _blockService.GetBlock(id);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                return null;
+            }
         }
 
         [HttpPost("Sync")]

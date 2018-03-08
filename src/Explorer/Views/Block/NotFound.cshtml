@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Block Error";
+    Layout = "_Layout";
+}
+
+<h2>Block is not found</h2>
+<div class="row">
+    <div class="alert alert-dismissible alert-warning col-md-12">
+        <p>We where unable to locate the block @Model</p>
+        <p><a asp-controller="Block" asp-action="Index" class="btn btn-success btn-xs">Go to Blocks</a></p>
+    </div>
+</div>

@@ -27,6 +27,11 @@ namespace Node.CLI.Services
             return _blockchainInstance.Blockchain.GetPending();
         }
 
+        public IEnumerable<Transaction> GetTransactions(string address)
+        {
+            return _blockchainInstance.Blockchain.GetTransactions(address);
+        }
+
         public decimal GetBalance(string address, int confirmations)
         {
             return _blockchainInstance.Blockchain.GetBalance(address, confirmations);

@@ -22,7 +22,9 @@ namespace Explorer.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var address = _nodeCommunicator.NodeAddress;
+
+            return View("Index", address);
         }
 
         public async Task<IActionResult> About()

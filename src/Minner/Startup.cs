@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Minner
@@ -7,8 +8,8 @@ namespace Minner
     {
         public static void Main(string[] args)
         {
-            var nodeUrl = ParseNodeUrl(args);
-            var minerPublicKey = ParseMinerAddress(args);
+            var nodeUrl = GetNodeUrl();
+            var minerPublicKey = GetMinerAddress();
 
             var logger = new Logger();
             var communicationService = new NodeCommunicator(nodeUrl);
@@ -18,24 +19,20 @@ namespace Minner
             Task.WaitAll(manager.Start());
         }
 
-        private static string ParseNodeUrl(IReadOnlyList<string> args)
+        private static string GetNodeUrl()
         {
-            if (args != null && args.Count > 0)
-            {
-                return args[0];
-            }
+            Console.WriteLine("Node url:");
+            var miner = Console.ReadLine();
 
-            return "http://localhost:5000";
+            return miner;
         }
 
-        private static string ParseMinerAddress(IReadOnlyList<string> args)
+        private static string GetMinerAddress()
         {
-            if (args != null && args.Count > 1)
-            {
-                return args[1];
-            }
+            Console.WriteLine("Miner wallet address:");
+            var address = Console.ReadLine();
 
-            return "MinnerAddress";
+            return address;
         }
     }
 }

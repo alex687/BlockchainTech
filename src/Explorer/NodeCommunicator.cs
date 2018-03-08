@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Explorer.Configuration;
 using Flurl;
@@ -19,6 +22,11 @@ namespace Explorer
             _nodeAddress = nodeInformation.Value.Address;
         }
 
+        public string NodeAddress
+        {
+            get { return _nodeAddress; }
+        }
+
         public async Task<IEnumerable<Block>> GetBlocks()
         {
             var url = _nodeAddress.AppendPathSegments("api", "block");
@@ -28,8 +36,59 @@ namespace Explorer
         public async Task<Block> GetBlock(int id)
         {
             var url = _nodeAddress.AppendPathSegments("api", "block", id.ToString());
+            var request = new FlurlRequest(url);
 
-            return await url.GetJsonAsync<Block>();
+            var response = await request.SendAsync(HttpMethod.Get);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+
+            return await Task.FromResult(response).ReceiveJson<Block>();
+        }
+
+        public async Task<Transaction> GetTransaction(string hash)
+        {
+            var url = _nodeAddress.AppendPathSegments("api", "transactions");
+            url.QueryParams.Add("transactionHash", hash);
+
+            var request = new FlurlRequest(url);
+
+            var response = await request.SendAsync(HttpMethod.Get);
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+
+            return await Task.FromResult(response).ReceiveJson<Transaction>();
+        }
+
+
+        public async Task<IEnumerable<Transaction>> GetTransactions(string address)
+        {
+            var url = _nodeAddress.AppendPathSegments("api", "transactions", address);
+
+            var request = new FlurlRequest(url);
+
+            var response = await request.SendAsync(HttpMethod.Get);
+
+            return await Task.FromResult(response).ReceiveJson<IEnumerable<Transaction>>();
+        }
+
+        public async Task<decimal> GetBalance(string address, int confirmations)
+        {
+            return await _nodeAddress
+                .AppendPathSegments("api", "transactions", address, "confirmations", confirmations)
+                .GetJsonAsync<decimal>();
+        }
+
+        public async Task<IEnumerable<PendingTransaction>> GetPendingTransactions()
+        {
+            return await _nodeAddress
+                .AppendPathSegments("api", "transactions", "pending")
+                .GetJsonAsync<IEnumerable<PendingTransaction>>();
         }
     }
 }

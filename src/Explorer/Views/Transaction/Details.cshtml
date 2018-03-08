@@ -1,0 +1,35 @@
+﻿@model Node.Core.Models.Transaction
+
+@{
+    ViewBag.Title = "Transaction details";
+    Layout = "_Layout";
+}
+
+<h2>Transaction details</h2>
+<div class="row">
+    <table class="table table-striped">
+        <tbody>
+
+            <tr>
+                <td>Hash</td>
+                <td>@Model.Hash</td>
+            </tr>
+            <tr>
+                <td>Block Index</td>
+                <td><a asp-area="" asp-controller="Block" asp-action="Details" asp-route-id="@Model.BlockIndex">@Model.BlockIndex</a></td>
+            </tr>
+            <tr>
+                <td>From</td>
+                <td><a asp-area="" asp-controller="Address" asp-action="Information" asp-route-id="@Model.From">@Model.From</a></td>
+            </tr>
+            <tr>
+                <td>To</td>
+                <td><a asp-area="" asp-controller="Address" asp-action="Information" asp-route-id="@Model.To">@Model.To</a></td>
+            </tr>
+            <tr>
+                <td>Ammount</td>
+                <td>@Model.Amount</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -35,6 +35,12 @@ namespace Node.CLI.Controllers
             return _transactionService.GetBalance(address, confirmations);
         }
 
+        [HttpGet("{address}")]
+        public IEnumerable<Transaction> GetTransactions(string address)
+        {
+            return _transactionService.GetTransactions(address);
+        }
+
         [HttpPost]
         public async Task<object> Send([FromBody] PendingTransactionRequest tr)
         {

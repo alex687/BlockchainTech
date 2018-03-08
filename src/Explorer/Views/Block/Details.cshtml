@@ -9,14 +9,14 @@
 <div class="row">
     <table class="table table-striped">
         <tbody>
-        
+
         <tr>
             <td>Index</td>
-            <td>@Model.Index</td>
+            <td><a asp-controller="Block" asp-action="Details" asp-route-id="@(Model.Index-1)" class="btn btn-info btn-xs">Previous</a> @Model.Index  <a asp-controller="Block" asp-action="Details" asp-route-id="@(Model.Index + 1)" class="btn btn-info btn-xs">Next</a></td>
         </tr>
         <tr>
             <td>Transactions</td>
-            <td>@Model.Transactions.Count</td>
+            <td><a asp-area="" asp-controller="Block" asp-action="Transactions" asp-route-id="@Model.Index">@Model.Transactions.Count Transactions</a></td>
         </tr>
         <tr>
             <td>Difficulty</td>
@@ -28,7 +28,7 @@
         </tr>
         <tr>
             <td>MinedBy</td>
-            <td>@Model.MinedBy</td>
+            <td><a asp-area="" asp-controller="Address" asp-action="Information" asp-route-id="@Model.MinedBy">@Model.MinedBy</a></td>
         </tr>
         <tr>
             <td>Nonce</td>

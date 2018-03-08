@@ -80,6 +80,13 @@ namespace Node.Core.Repositories.Blockchain
             return to - from;
         }
 
+        public IEnumerable<Transaction> GetTransactions(string address)
+        {
+            var addressTransactions = _transactionsRepository.GetTransactions(address).ToList();
+
+            return addressTransactions;
+        }
+
         public Transaction GetTransaction(string hash)
         {
             return _transactionsRepository.GetTransaction(hash);

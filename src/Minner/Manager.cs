@@ -27,7 +27,7 @@ namespace Minner
                     await Mine();
                     await Task.Delay(new TimeSpan(0, 0, 5));
                 }
-                catch(Exception e )
+                catch(Exception )
                 {
                 }
             }

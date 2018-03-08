@@ -1,0 +1,49 @@
+﻿@model AddressInformationViewModel
+
+@{
+    ViewBag.Title = "Address Information";
+    Layout = "_Layout";
+}
+
+<h2>Address Information</h2>
+<div class="row">
+    <h3>Address : @Model.Address</h3>
+
+    <table class="table table-striped">
+        <tbody>
+
+        <tr>
+            <td>Balance</td>
+            <td>@Model.Balance</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <h3>Transactions</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Hash</th>
+                <th>Block</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Ammount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var transaction in Model.Transactions)
+                {
+                    <tr>
+                        <td><a asp-area="" asp-controller="Transaction" asp-action="Details" asp-route-id="@transaction.Hash">@transaction.Hash</a></td>
+                        <td><a asp-area="" asp-controller="Block" asp-action="Details" asp-route-id="@transaction.BlockIndex">@transaction.BlockIndex</a></td>
+                        <td>@transaction.From</td>
+                        <td><a asp-area="" asp-controller="Address" asp-action="Information" asp-route-id="@transaction.To">@transaction.To</a></td>
+                        <td>@transaction.Amount</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
