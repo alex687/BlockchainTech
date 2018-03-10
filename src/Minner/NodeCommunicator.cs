@@ -21,11 +21,15 @@ namespace Minner
                 .GetJsonAsync<Block>();
         }
 
-        public async Task SendBlock(Block block)
+        public async Task<bool> SendBlock(Block block)
         {
-            await _nodeUrl
+            var response = await _nodeUrl
                 .AppendPathSegments("api", "mining")
                 .PostJsonAsync(block);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            return bool.Parse(content);
         }
     }
 }

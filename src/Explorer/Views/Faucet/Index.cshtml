@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Faucet";
+    Layout = "_Layout";
+}
+
+<h2>Faucet</h2>
+@if (Model != null)
+{
+    <div class="row">
+        <div class="alert alert-dismissible alert-warning col-md-12">
+            <p class="mb-0"> Transaction @Model</p>
+        </div>
+    </div>
+}
+<div class="row">
+   
+    @using (Html.BeginForm("Index", "Faucet", FormMethod.Post, new { @class = "navbar-form" }))
+    {
+        <div class="input-group">
+            @Html.TextBox("address", "", new { @class = "form-control", placeholder = "Address" })
+            <div class="input-group-btn">
+                <button class="btn btn-default" type="submit">Request</button>
+            </div>
+        </div>
+    }
+</div>

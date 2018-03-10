@@ -38,9 +38,9 @@ namespace Minner
             return null;
         }
 
-        public async Task SendMinnedBlock(Block block)
+        public async Task<bool> SendMinnedBlock(Block block)
         {
-            await _communicationService.SendBlock(block);
+            return await _communicationService.SendBlock(block);
         }
     }
 }

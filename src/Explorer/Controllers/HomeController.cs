@@ -27,21 +27,6 @@ namespace Explorer.Controllers
             return View("Index", address);
         }
 
-        public async Task<IActionResult> About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            var blocks = await _nodeCommunicator.GetBlocks();
-            return View(blocks);
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

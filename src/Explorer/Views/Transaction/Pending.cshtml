@@ -1,18 +1,16 @@
-﻿@model Node.Core.Models.Block
+﻿@model IEnumerable<Node.Core.Models.PendingTransaction>
 
 @{
-    ViewBag.Title = "Block transactions";
+    ViewBag.Title = "Pending transactions";
     Layout = "_Layout";
 }
 
-<h2>Transactions for block: @Model.Index</h2>
+<h2>Pending Transactons</h2>
 <div class="row">
-    <h2>Blocks</h2>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Hash</th>
-                <th>Block</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Ammount</th>
@@ -20,11 +18,10 @@
         </thead>
         <tbody>
             @{
-                foreach (var transaction in Model.Transactions)
+                foreach (var transaction in Model)
                 {
             <tr>
                 <td><a asp-area="" asp-controller="Transaction" asp-action="Details" asp-route-id="@transaction.Hash">@transaction.Hash</a></td>
-                <td><a asp-area="" asp-controller="Block" asp-action="Details" asp-route-id="@transaction.BlockIndex">@transaction.BlockIndex</a></td>
                 <td><a asp-area="" asp-controller="Address" asp-action="Information" asp-route-id="@transaction.From">@transaction.From</a></td>
                 <td><a asp-area="" asp-controller="Address" asp-action="Information" asp-route-id="@transaction.To">@transaction.To</a></td>
                 <td>@transaction.Amount</td>

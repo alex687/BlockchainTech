@@ -7,25 +7,25 @@
 
 <h2>Blocks</h2>
 <table class="table table-striped">
-<thead>
-<tr>
-    <th>Index</th>
-    <th>CreatedOn</th>
-    <th>Hash</th>
-    <th>Transactions</th>
-</tr>
-</thead>
-<tbody>
-@{
-    foreach (var block in (Model))
-    {
-        <tr>
-            <td><a asp-area="" asp-controller="Block" asp-action="Details" asp-route-id="@block.Index">@block.Index</a></td>
-            <td>@block.CreatedOn</td>
-            <td>@block.Hash</td>
-            <td><a asp-area="" asp-controller="Block" asp-action="Transactions" asp-route-id="@block.Index">@block.Transactions.Count Transactions</a></td>
-        </tr>
+    <thead>
+    <tr>
+        <th>Index</th>
+        <th>CreatedOn</th>
+        <th>Hash</th>
+        <th>Transactions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @{
+        foreach (var block in (Model))
+        {
+            <tr>
+                <td><a asp-area="" asp-controller="Block" asp-action="Details" asp-route-id="@block.Index">@block.Index</a></td>
+                <td>@block.CreatedOn</td>
+                <td>@block.Hash</td>
+                <td><a asp-area="" asp-controller="Block" asp-action="Transactions" asp-route-id="@block.Index">@block.Transactions.Count Transactions</a></td>
+            </tr>
+        }
     }
-}
-</tbody>
+    </tbody>
 </table>

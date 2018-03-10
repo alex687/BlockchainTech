@@ -30,5 +30,11 @@ namespace Explorer.Controllers
 
             return View(model);
         }
+
+        [HttpPost("Address/Search")]
+        public IActionResult Search(string address)
+        {
+            return RedirectToAction("Information", "Address", new { address = address });
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Node.Core.Extensions;
 using Node.Core.Models;
 
@@ -28,7 +30,7 @@ namespace Minner
                     break;
                 }
 
-                _block.Nonce = index;
+                _block.Nonce = index + DateTime.Now.Ticks;
                 var hash = _block.ComputeHash();
 
                 if (_acceptance.IsValid(hash))

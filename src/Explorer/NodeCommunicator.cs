@@ -9,7 +9,9 @@ using Explorer.Configuration;
 using Flurl;
 using Flurl.Http;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Node.Core.Models;
+using Node.Requests;
 
 namespace Explorer
 {
@@ -89,6 +91,22 @@ namespace Explorer
             return await _nodeAddress
                 .AppendPathSegments("api", "transactions", "pending")
                 .GetJsonAsync<IEnumerable<PendingTransaction>>();
+        }
+
+        public async Task<bool> PublishTransaction(PendingTransactionRequest transaction)
+        {
+            var response = await _nodeAddress
+                .AppendPathSegments("api", "transactions")
+                .PostJsonAsync(transaction);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+            var definition = new { accepted = false };
+            return JsonConvert.DeserializeAnonymousType(content, definition).accepted;
         }
     }
 }

@@ -38,8 +38,8 @@
                     <tr>
                         <td><a asp-area="" asp-controller="Transaction" asp-action="Details" asp-route-id="@transaction.Hash">@transaction.Hash</a></td>
                         <td><a asp-area="" asp-controller="Block" asp-action="Details" asp-route-id="@transaction.BlockIndex">@transaction.BlockIndex</a></td>
-                        <td>@transaction.From</td>
-                        <td><a asp-area="" asp-controller="Address" asp-action="Information" asp-route-id="@transaction.To">@transaction.To</a></td>
+                        <td><a href="@transaction.From">@transaction.From</a></td>
+                        <td><a href="@transaction.To">@transaction.To</a></td>
                         <td>@transaction.Amount</td>
                     </tr>
                 }

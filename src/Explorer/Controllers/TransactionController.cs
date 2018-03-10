@@ -25,5 +25,14 @@ namespace Explorer.Controllers
 
             return View(transaction);
         }
+
+
+        [HttpGet("Transaction/Pending")]
+        public async Task<IActionResult> Pending(string hash)
+        {
+            var transactions = await _nodeCommunicator.GetPendingTransactions();
+
+            return View(transactions);
+        }
     }
 }

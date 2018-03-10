@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Node.Core.Models;
@@ -27,7 +29,7 @@ namespace Minner
                     await Mine();
                     await Task.Delay(new TimeSpan(0, 0, 5));
                 }
-                catch(Exception )
+                catch (Exception)
                 {
                 }
             }
@@ -38,25 +40,32 @@ namespace Minner
             var block = await _blockHandler.GetBlockToMine();
             if (block != null && (_currentBlock == null || _currentBlock.Index < block.Index))
             {
+                _logger.Log("New block to mine " + block.Index);
                 _currentBlock = block;
                 _cancelationSource?.Cancel();
+
                 CreateNewWorker();
             }
         }
 
-        private void CreateNewWorker()
+        private async Task CreateNewWorker()
         {
             _logger.Log($"Creating new minning job for block: {_currentBlock.Index}");
             _cancelationSource = new CancellationTokenSource();
 
-            Task.Run(() => Compute(_cancelationSource.Token))
-                .ContinueWith(async block =>
-                {
-                    _cancelationSource.Cancel();
-                    _logger.Log($"Job {(await block).Index} minned!");
-                    await _blockHandler.SendMinnedBlock(await block);
-                });
+            var block = Compute(_cancelationSource.Token);
+            if (block != null)
+            {
+                _logger.Log("Stopped old");
+            }
+
+            if (await _blockHandler.SendMinnedBlock(block))
+            {
+                _logger.Log($"Job {(block).Index} minned!");
+            }
         }
+
+
 
         private Block Compute(CancellationToken cancellationToken)
         {
